@@ -13,7 +13,16 @@
       packages = forAllSystems (pkgs: rec {
         gruvbox-gtk-theme = pkgs.callPackage ./nix/package.nix { };
         gruvbox-icon-theme = pkgs.callPackage ./nix/icons.nix { };
+        list-variants = pkgs.callPackage ./nix/list-variants.nix { };
         default = gruvbox-gtk-theme;
+      });
+
+      apps = forAllSystems (pkgs: {
+        list-variants = {
+          type = "app";
+          program = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.list-variants;
+          meta.description = "List the theme, color, size and tweak options this flake accepts";
+        };
       });
 
       overlays.default = import ./nix/overlay.nix;
@@ -37,6 +46,29 @@
             colorVariants = [ "dark" ];
           };
           icons = self.packages.${pkgs.stdenv.hostPlatform.system}.gruvbox-icon-theme;
+          lister = self.packages.${pkgs.stdenv.hostPlatform.system}.list-variants;
+
+          # What list-variants is expected to print, derived from the same file
+          # it reads. Each value is tied to the row it belongs on rather than
+          # searched for anywhere in the output: the prose below those rows
+          # names several tweaks, so a document-wide search would pass even if
+          # a row were missing them.
+          variants = import ./nix/variants.nix lib;
+          expectedRows = [
+            { label = "themes (-t)"; words = variants.themes; }
+            { label = "colors (-c)"; words = variants.colors; }
+            { label = "sizes (-s)"; words = variants.sizes; }
+            { label = "tweaks"; words = variants.tweaks; }
+          ];
+
+          # Directory names spanning the compact and soft/medium suffixes that
+          # no other check pins.
+          expectedNames = [
+            "Gruvbox-Dark"
+            "Gruvbox-Green-Dark-Compact"
+            "Gruvbox-Red-Light-Soft"
+            "Gruvbox-Purple-Dark-Compact-Medium"
+          ];
 
           # Declares only the home-manager options the module writes to.
           # evalModules refuses assignments to undeclared options, so the
@@ -64,6 +96,40 @@
           };
         in
         {
+          # The drift guard for list-variants: adding a value to
+          # nix/variants.nix without it reaching the printed row fails here.
+          list-variants-covers-vocabulary =
+            pkgs.runCommand "check-list-variants-covers-vocabulary" { } ''
+              ${lib.getExe lister} > listed.txt
+
+              row_has() {
+                label="$1"
+                shift
+                # Anchored at column 1 so the indented "tweaks = [ ... ]" line
+                # in the copy-paste snippet cannot be mistaken for the row.
+                line=$(awk -v l="  $label" 'index($0, l) == 1 { print; exit }' listed.txt)
+                if [ -z "$line" ]; then
+                  echo "list-variants prints no '$label' row at all" >&2
+                  exit 1
+                fi
+                for word in "$@"; do
+                  case " $line " in
+                    *" $word "*) ;;
+                    *) echo "the '$label' row never lists $word" >&2; exit 1 ;;
+                  esac
+                done
+              }
+
+              ${lib.concatMapStringsSep "\n              "
+                (r: "row_has ${lib.escapeShellArgs ([ r.label ] ++ r.words)}")
+                expectedRows}
+
+              ${lib.concatMapStringsSep "\n              "
+                (name: ''grep -qF -- ${lib.escapeShellArg name} listed.txt || { echo "no example builds the name ${name}" >&2; exit 1; }'')
+                expectedNames}
+              touch $out
+            '';
+
           theme-layout = pkgs.runCommand "check-theme-layout" { } ''
             dir=${theme}/share/themes/Gruvbox-Dark
             test -s "$dir/gtk-3.0/gtk.css"

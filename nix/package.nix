@@ -11,36 +11,21 @@
 }:
 
 let
-  validThemes = [ "default" "green" "grey" "orange" "pink" "purple" "red" "teal" "yellow" ];
-  validColors = [ "light" "dark" ];
-  validSizes = [ "standard" "compact" ];
-  validTweaks = [ "soft" "medium" "black" "float" "outline" "macos" ];
-
-  themeSuffix = {
-    default = "";
-    green = "-Green";
-    grey = "-Grey";
-    orange = "-Orange";
-    pink = "-Pink";
-    purple = "-Purple";
-    red = "-Red";
-    teal = "-Teal";
-    yellow = "-Yellow";
-  };
-  colorSuffix = { light = "-Light"; dark = "-Dark"; };
-  sizeSuffix = { standard = ""; compact = "-Compact"; };
-
-  # install.sh lets a later --tweaks value overwrite ctype, so soft and medium
-  # are mutually exclusive rather than additive.
-  ctypeSuffix =
-    if lib.elem "soft" tweaks then "-Soft"
-    else if lib.elem "medium" tweaks then "-Medium"
-    else "";
+  # The accepted values and the directory-naming rule live in one place so the
+  # validation below, passthru.themeNames, and the list-variants app cannot
+  # disagree about what this theme supports.
+  variants = import ./variants.nix lib;
 
   themeNames = lib.concatMap
     (t: lib.concatMap
       (c: map
-        (s: "${themeName}${themeSuffix.${t}}${colorSuffix.${c}}${sizeSuffix.${s}}${ctypeSuffix}")
+        (s: variants.themeDirName {
+          inherit themeName;
+          theme = t;
+          color = c;
+          size = s;
+          enabledTweaks = tweaks;
+        })
         sizeVariants)
       colorVariants)
     themeVariants;
@@ -59,10 +44,10 @@ in
 assert lib.assertMsg (themeVariants != [ ]) "themeVariants must not be empty";
 assert lib.assertMsg (colorVariants != [ ]) "colorVariants must not be empty";
 assert lib.assertMsg (sizeVariants != [ ]) "sizeVariants must not be empty";
-assert lib.all (t: lib.assertOneOf "themeVariants entry" t validThemes) themeVariants;
-assert lib.all (c: lib.assertOneOf "colorVariants entry" c validColors) colorVariants;
-assert lib.all (s: lib.assertOneOf "sizeVariants entry" s validSizes) sizeVariants;
-assert lib.all (t: lib.assertOneOf "tweaks entry" t validTweaks) tweaks;
+assert lib.all (t: lib.assertOneOf "themeVariants entry" t variants.themes) themeVariants;
+assert lib.all (c: lib.assertOneOf "colorVariants entry" c variants.colors) colorVariants;
+assert lib.all (s: lib.assertOneOf "sizeVariants entry" s variants.sizes) sizeVariants;
+assert lib.all (t: lib.assertOneOf "tweaks entry" t variants.tweaks) tweaks;
 assert lib.assertMsg (!(lib.elem "soft" tweaks && lib.elem "medium" tweaks))
   "tweaks: soft and medium are mutually exclusive, install.sh keeps only the last one";
 

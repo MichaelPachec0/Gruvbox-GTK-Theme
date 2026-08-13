@@ -35,6 +35,13 @@ nix build github:MichaelPachec0/Gruvbox-GTK-Theme#gruvbox-gtk-theme
 nix build github:MichaelPachec0/Gruvbox-GTK-Theme#gruvbox-icon-theme
 ```
 
+To see every theme, color, size and tweak the flake accepts, along with the
+directory name each combination installs as:
+
+```sh
+nix run github:MichaelPachec0/Gruvbox-GTK-Theme#list-variants
+```
+
 To use it from your own flake, add it as an input; the examples below assume
 this input name:
 
