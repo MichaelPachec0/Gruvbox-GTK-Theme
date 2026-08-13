@@ -16,6 +16,8 @@
         default = gruvbox-gtk-theme;
       });
 
+      overlays.default = import ./nix/overlay.nix;
+
       checks = forAllSystems (pkgs:
         let
           theme = self.packages.${pkgs.stdenv.hostPlatform.system}.gruvbox-gtk-theme;
