@@ -113,15 +113,30 @@ in
   config = lib.mkIf cfg.enable {
     assertions = [
       {
-        assertion = themeNames != [ ];
-        message = "programs.gruvbox-gtk-theme.package exposes no themeNames; set gtkThemeName explicitly.";
+        # themeNames is only empty when package was overridden to something
+        # without a passthru.themeNames. gtkThemeName is the documented escape
+        # hatch for that case, so this only fires when neither gives us a
+        # theme directory to activate.
+        assertion = themeNames != [ ] || cfg.gtkThemeName != null;
+        message = "programs.gruvbox-gtk-theme.package exposes no themeNames and gtkThemeName is not set; set gtkThemeName explicitly.";
       }
       {
-        assertion = cfg.gtkThemeName == null || lib.elem cfg.gtkThemeName themeNames;
+        # Skipped when themeNames is empty: that case is already covered by
+        # the assertion above, and checking membership against an empty list
+        # would reject every gtkThemeName, including a correct one for a
+        # custom package.
+        assertion = cfg.gtkThemeName == null || themeNames == [ ] || lib.elem cfg.gtkThemeName themeNames;
         message = "programs.gruvbox-gtk-theme.gtkThemeName is ${toString cfg.gtkThemeName}, which this package does not build. It builds: ${lib.concatStringsSep ", " themeNames}.";
       }
       {
-        assertion = !cfg.iconTheme.enable || cfg.iconThemeName == null || lib.elem cfg.iconThemeName iconThemeNames;
+        # Mirrors the themeNames assertion above for the icon side: an
+        # iconTheme.package with no passthru.iconThemeNames and no explicit
+        # iconThemeName has no icon theme directory to activate.
+        assertion = !cfg.iconTheme.enable || iconThemeNames != [ ] || cfg.iconThemeName != null;
+        message = "programs.gruvbox-gtk-theme.iconTheme.package exposes no iconThemeNames and iconThemeName is not set; set iconThemeName explicitly.";
+      }
+      {
+        assertion = !cfg.iconTheme.enable || cfg.iconThemeName == null || iconThemeNames == [ ] || lib.elem cfg.iconThemeName iconThemeNames;
         message = "programs.gruvbox-gtk-theme.iconThemeName is ${toString cfg.iconThemeName}, which this package does not ship. It ships: ${lib.concatStringsSep ", " iconThemeNames}.";
       }
     ];
