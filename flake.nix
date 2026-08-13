@@ -12,6 +12,7 @@
     {
       packages = forAllSystems (pkgs: rec {
         gruvbox-gtk-theme = pkgs.callPackage ./nix/package.nix { };
+        gruvbox-icon-theme = pkgs.callPackage ./nix/icons.nix { };
         default = gruvbox-gtk-theme;
       });
 
@@ -22,6 +23,7 @@
             themeVariants = [ "green" ];
             colorVariants = [ "dark" ];
           };
+          icons = self.packages.${pkgs.stdenv.hostPlatform.system}.gruvbox-icon-theme;
         in
         {
           theme-layout = pkgs.runCommand "check-theme-layout" { } ''
@@ -38,6 +40,18 @@
               echo "override leaked the default variant into the output" >&2
               exit 1
             fi
+            touch $out
+          '';
+
+          icons-preserve-symlinks = pkgs.runCommand "check-icons-preserve-symlinks" { } ''
+            count=$(find ${icons}/share/icons -type l | wc -l)
+            if [ "$count" -lt 10000 ]; then
+              echo "expected tens of thousands of symlinks, found $count" >&2
+              echo "the install phase probably used cp -r and dereferenced them" >&2
+              exit 1
+            fi
+            test -f ${icons}/share/icons/Gruvbox-Dark/index.theme
+            test -f ${icons}/share/icons/Gruvbox-Dark/icon-theme.cache
             touch $out
           '';
         });
