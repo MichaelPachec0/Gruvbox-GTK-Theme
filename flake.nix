@@ -18,6 +18,9 @@
 
       overlays.default = import ./nix/overlay.nix;
 
+      homeManagerModules.default = import ./nix/hm-module.nix { inherit self; };
+      homeManagerModules.gruvbox-gtk-theme = self.homeManagerModules.default;
+
       checks = forAllSystems (pkgs:
         let
           theme = self.packages.${pkgs.stdenv.hostPlatform.system}.gruvbox-gtk-theme;
@@ -56,6 +59,46 @@
             test -f ${icons}/share/icons/Gruvbox-Dark/icon-theme.cache
             touch $out
           '';
+
+          hm-module-eval =
+            let
+              # Declares only the home-manager options the module writes to.
+              # evalModules refuses assignments to undeclared options, so the
+              # stub is required rather than optional.
+              stub = { ... }: {
+                options = {
+                  # evalModules has no built-in assertions option; real
+                  # home-manager gets one from its own base modules. The
+                  # module writes to it, so the stub must declare it too.
+                  assertions = lib.mkOption {
+                    type = lib.types.listOf lib.types.unspecified;
+                    default = [ ];
+                  };
+                  home.packages = lib.mkOption {
+                    type = lib.types.listOf lib.types.package;
+                    default = [ ];
+                  };
+                  gtk.enable = lib.mkOption { type = lib.types.bool; default = false; };
+                  gtk.theme.name = lib.mkOption { type = lib.types.nullOr lib.types.str; default = null; };
+                  gtk.theme.package = lib.mkOption { type = lib.types.nullOr lib.types.package; default = null; };
+                  gtk.iconTheme.name = lib.mkOption { type = lib.types.nullOr lib.types.str; default = null; };
+                  gtk.iconTheme.package = lib.mkOption { type = lib.types.nullOr lib.types.package; default = null; };
+                };
+              };
+              evaluated = lib.evalModules {
+                specialArgs = { inherit pkgs; };
+                modules = [
+                  stub
+                  self.homeManagerModules.default
+                  { programs.gruvbox-gtk-theme.enable = true; }
+                ];
+              };
+            in
+            pkgs.runCommand "check-hm-module-eval" { } ''
+              test "${evaluated.config.gtk.theme.name}" = "Gruvbox-Dark"
+              test "${lib.boolToString evaluated.config.gtk.enable}" = "true"
+              touch $out
+            '';
         });
     };
 }
