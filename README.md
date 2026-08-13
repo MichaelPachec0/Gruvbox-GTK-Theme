@@ -26,6 +26,41 @@ The `gnome-themes-extra` package supplies the GTK2 `adwaita` engine used by the
 GTK2 part of the theme; the rest of the GTK2 styling relies on the `pixmap`
 engine that ships with GTK2 itself, so no extra theme engine is needed.
 
+### Nix
+
+This repository is a flake. Build the theme, or the icon themes, directly:
+
+```sh
+nix build github:MichaelPachec0/Gruvbox-GTK-Theme#gruvbox-gtk-theme
+nix build github:MichaelPachec0/Gruvbox-GTK-Theme#gruvbox-icon-theme
+```
+
+Pick variants with `.override`:
+
+```nix
+gruvbox-gtk-theme.override {
+  themeVariants = [ "green" ];
+  colorVariants = [ "dark" ];
+  tweaks = [ "outline" ];
+}
+```
+
+With home-manager, add the flake's `homeManagerModules.default` and enable it:
+
+```nix
+programs.gruvbox-gtk-theme = {
+  enable = true;
+  themeVariants = [ "green" ];
+  colorVariants = [ "dark" ];
+  iconTheme.enable = true;
+};
+```
+
+The module installs `gnome-themes-extra` for you, since the GTK2 part of the
+theme loads its `adwaita` engine. Set `gnomeShellVersion` if you run a GNOME
+older than 48; the installer cannot detect your GNOME from inside the build
+sandbox and otherwise builds shell styles for the newest version it knows.
+
 Here are some commands to install on some distributions.
 
 - On Fedora run:

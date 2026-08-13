@@ -21,6 +21,14 @@
       homeManagerModules.default = import ./nix/hm-module.nix { inherit self; };
       homeManagerModules.gruvbox-gtk-theme = self.homeManagerModules.default;
 
+      devShells = forAllSystems (pkgs: {
+        default = pkgs.mkShellNoCC {
+          packages = [ pkgs.sassc pkgs.gnome-themes-extra ];
+        };
+      });
+
+      formatter = forAllSystems (pkgs: pkgs.nixpkgs-fmt);
+
       checks = forAllSystems (pkgs:
         let
           theme = self.packages.${pkgs.stdenv.hostPlatform.system}.gruvbox-gtk-theme;
