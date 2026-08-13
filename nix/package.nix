@@ -56,6 +56,9 @@ let
   relativeTo = path: lib.removePrefix (toString root + "/") (toString path);
 in
 
+assert lib.assertMsg (themeVariants != [ ]) "themeVariants must not be empty";
+assert lib.assertMsg (colorVariants != [ ]) "colorVariants must not be empty";
+assert lib.assertMsg (sizeVariants != [ ]) "sizeVariants must not be empty";
 assert lib.all (t: lib.assertOneOf "themeVariants entry" t validThemes) themeVariants;
 assert lib.all (c: lib.assertOneOf "colorVariants entry" c validColors) colorVariants;
 assert lib.all (s: lib.assertOneOf "sizeVariants entry" s validSizes) sizeVariants;
@@ -90,7 +93,7 @@ stdenvNoCC.mkDerivation {
     # exports `name`, which the script would otherwise use as the theme name,
     # producing $out/share/themes/<derivation name>-Dark. The rest are unset
     # defensively so a future stdenv change cannot alter the build silently.
-    unset name dest theme color size ctype window
+    unset name dest theme color size ctype window uninstall
     unset compact soft medium blackness float outline macos libadwaita
 
     export HOME="$TMPDIR"
