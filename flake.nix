@@ -14,5 +14,32 @@
         gruvbox-gtk-theme = pkgs.callPackage ./nix/package.nix { };
         default = gruvbox-gtk-theme;
       });
+
+      checks = forAllSystems (pkgs:
+        let
+          theme = self.packages.${pkgs.stdenv.hostPlatform.system}.gruvbox-gtk-theme;
+          green = theme.override {
+            themeVariants = [ "green" ];
+            colorVariants = [ "dark" ];
+          };
+        in
+        {
+          theme-layout = pkgs.runCommand "check-theme-layout" { } ''
+            dir=${theme}/share/themes/Gruvbox-Dark
+            test -s "$dir/gtk-3.0/gtk.css"
+            test -f "$dir/gtk-2.0/gtkrc"
+            test "$(head -1 "$dir/index.theme")" = "[Desktop Entry]"
+            touch $out
+          '';
+
+          override-variants = pkgs.runCommand "check-override-variants" { } ''
+            test -d ${green}/share/themes/Gruvbox-Green-Dark
+            if [ -e ${green}/share/themes/Gruvbox-Dark ]; then
+              echo "override leaked the default variant into the output" >&2
+              exit 1
+            fi
+            touch $out
+          '';
+        });
     };
 }
