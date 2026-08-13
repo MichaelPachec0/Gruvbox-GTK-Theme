@@ -21,32 +21,35 @@ the [VinceLiuice's](https://github.com/vinceliuice) Awesome GTK Themes and the c
 ## ⚙️ Requirements
 
 Before installing the themes, make sure to install the following necessary packages:
-`sassc` `murrine-engine` and `gnome-themes-extra` packages for the correct rendering of themes.
+`sassc` and `gnome-themes-extra` packages for the correct rendering of themes.
+The `gnome-themes-extra` package supplies the GTK2 `adwaita` engine used by the
+GTK2 part of the theme; the rest of the GTK2 styling relies on the `pixmap`
+engine that ships with GTK2 itself, so no extra theme engine is needed.
 
 Here are some commands to install on some distributions.
 
 - On Fedora run:
 
 ```sh
- sudo dnf install gtk-murrine-engine
+ sudo dnf install sassc adwaita-gtk2-theme
 ```
 
 - On OpenSUSE run:
 
 ```sh
- sudo zypper install gtk2-engine-murrine
+ sudo zypper install sassc gtk2-theming-engine-adwaita
 ```
 
 - On Arch run:
 
 ```sh
-sudo pacman -S gtk-engine-murrine
+sudo pacman -S sassc gnome-themes-extra
 ```
 
 - On Debian and derivatives run:
 
 ```sh
-sudo apt install gtk2-engines-murrine
+sudo apt install sassc gnome-themes-extra
 ```
 
 ## 📁 Manual Installation

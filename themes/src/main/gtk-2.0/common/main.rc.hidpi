@@ -2588,12 +2588,6 @@ style "tooltip" {
   bg[SELECTED] = @tooltip_bg_color
 }
 
-style "disable_text_shadow" {
-  engine "murrine" {
-    textstyle = 0
-  }
-}
-
 style "disable_separator" {
   xthickness = 0
   ythickness = 0
@@ -2693,10 +2687,6 @@ widget_class "*<GtkOptionMenu>.<GtkLabel>"                         style "normal
 # ComboBoxes tend to draw the button label with text[]
 # instead of fg[], we need to fix that
 widget_class "*<GtkComboBox>*<GtkCellView>"                        style "combobox_cellview"
-
-# Disable white text shadows
-widget_class "*<GtkLabel>"                                         style "disable_text_shadow"
-widget_class "*<GtkCellView>"                                      style "disable_text_shadow"
 
 # GTK tooltips
 widget "gtk-tooltip*"                                              style "tooltip"
