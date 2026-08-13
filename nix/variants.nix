@@ -40,4 +40,22 @@ rec {
   # black, float and outline tweaks change styling only.
   themeDirName = { themeName, theme, color, size, enabledTweaks ? [ ] }:
     "${themeName}${themeSuffix.${theme}}${colorSuffix.${color}}${sizeSuffix.${size}}${ctypeSuffixFor enabledTweaks}";
+
+  # The ctype dimension is soft, medium, or neither. The remaining tweaks
+  # (black, float, outline, macos) change styling or assets without changing
+  # the directory name, so they do not multiply the list below.
+  ctypeChoices = [ [ ] [ "soft" ] [ "medium" ] ];
+
+  # Every directory name install.sh can produce, in vocabulary order:
+  # themes x colors x sizes x ctypes.
+  allThemeDirNames = themeName:
+    lib.concatMap
+      (theme: lib.concatMap
+        (color: lib.concatMap
+          (size: map
+            (enabledTweaks: themeDirName { inherit themeName theme color size enabledTweaks; })
+            ctypeChoices)
+          sizes)
+        colors)
+      themes;
 }

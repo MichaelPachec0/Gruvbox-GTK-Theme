@@ -61,14 +61,11 @@
             { label = "tweaks"; words = variants.tweaks; }
           ];
 
-          # Directory names spanning the compact and soft/medium suffixes that
-          # no other check pins.
-          expectedNames = [
-            "Gruvbox-Dark"
-            "Gruvbox-Green-Dark-Compact"
-            "Gruvbox-Red-Light-Soft"
-            "Gruvbox-Purple-Dark-Compact-Medium"
-          ];
+          # The complete enumeration, compared line for line rather than
+          # sampled, so a missing, extra or misspelled name fails the check.
+          expectedNames = variants.allThemeDirNames "Gruvbox";
+          expectedNamesFile = pkgs.writeText "expected-theme-names"
+            (lib.concatMapStringsSep "\n" (n: "  ${n}") expectedNames + "\n");
 
           # Declares only the home-manager options the module writes to.
           # evalModules refuses assignments to undeclared options, so the
@@ -124,9 +121,13 @@
                 (r: "row_has ${lib.escapeShellArgs ([ r.label ] ++ r.words)}")
                 expectedRows}
 
-              ${lib.concatMapStringsSep "\n              "
-                (name: ''grep -qF -- ${lib.escapeShellArg name} listed.txt || { echo "no example builds the name ${name}" >&2; exit 1; }'')
-                expectedNames}
+              # Every line that is an installable name, in printed order.
+              grep -E '^  Gruvbox' listed.txt > printed-names.txt
+
+              if ! diff -u ${expectedNamesFile} printed-names.txt; then
+                echo "the printed theme names do not match the ${toString (builtins.length expectedNames)} names variants.nix computes" >&2
+                exit 1
+              fi
               touch $out
             '';
 

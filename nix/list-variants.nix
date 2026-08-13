@@ -21,25 +21,10 @@ let
   labelWidth = 14;
   row = label: values: "  ${padRight labelWidth label}${lib.concatStringsSep " " values}";
 
-  example = { theme, color, size, enabledTweaks ? [ ] }:
-    let
-      dirName = variants.themeDirName {
-        themeName = "Gruvbox";
-        inherit theme color size enabledTweaks;
-      };
-      described = lib.concatStringsSep " + "
-        ([ theme color ]
-          ++ lib.optional (size != "standard") size
-          ++ enabledTweaks);
-    in
-    "  ${padRight 36 described}-> ${dirName}";
-
-  examples = [
-    (example { theme = "default"; color = "dark"; size = "standard"; })
-    (example { theme = "green"; color = "dark"; size = "compact"; })
-    (example { theme = "red"; color = "light"; size = "standard"; enabledTweaks = [ "soft" ]; })
-    (example { theme = "purple"; color = "dark"; size = "compact"; enabledTweaks = [ "medium" ]; })
-  ];
+  # Every name the theme can install, not a sample. Printed one per line so the
+  # output pipes cleanly into grep or a fuzzy finder.
+  allNames = variants.allThemeDirNames "Gruvbox";
+  nameLines = map (n: "  ${n}") allNames;
 
   text = ''
     Gruvbox GTK theme variants
@@ -52,9 +37,11 @@ let
     soft and medium are mutually exclusive; install.sh keeps only the last one.
     black, float, outline and macos change styling without changing the name.
 
-    Installed directory name is themeName + theme + color + size + ctype:
+    All ${toString (builtins.length allNames)} installable theme names
+    (themeName + theme + color + size + ctype, with themeName defaulting to
+    Gruvbox; pass -n or themeName to change the prefix):
 
-    ${lib.concatStringsSep "\n" examples}
+    ${lib.concatStringsSep "\n" nameLines}
 
     Build one directly:
 
