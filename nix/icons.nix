@@ -51,13 +51,13 @@ stdenvNoCC.mkDerivation {
     runHook postInstall
   '';
 
-  passthru.iconThemeNames = [
-    "Gruvbox-Dark"
-    "Gruvbox-Light"
-    "Gruvbox_Dark"
-    "Gruvbox_Dark-2"
-    "gruvbox_dark"
-  ];
+  # Derived from the source tree rather than hardcoded, so a rebase onto
+  # upstream that adds, renames or drops an icon theme cannot silently
+  # desync this list from what installPhase actually copies. lib.naturalSort
+  # gives a deterministic order; verified to put Gruvbox-Dark first, which
+  # the home-manager module relies on as its default icon theme.
+  passthru.iconThemeNames = lib.naturalSort (lib.attrNames
+    (lib.filterAttrs (_: type: type == "directory") (builtins.readDir (root + "/icons"))));
 
   meta = {
     description = "Gruvbox icon themes";
