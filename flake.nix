@@ -29,6 +29,31 @@
             colorVariants = [ "dark" ];
           };
           icons = self.packages.${pkgs.stdenv.hostPlatform.system}.gruvbox-icon-theme;
+
+          # Declares only the home-manager options the module writes to.
+          # evalModules refuses assignments to undeclared options, so the
+          # stub is required rather than optional. Shared by both hm-module
+          # checks below.
+          hmStub = { ... }: {
+            options = {
+              # evalModules has no built-in assertions option; real
+              # home-manager gets one from its own base modules. The
+              # module writes to it, so the stub must declare it too.
+              assertions = lib.mkOption {
+                type = lib.types.listOf lib.types.unspecified;
+                default = [ ];
+              };
+              home.packages = lib.mkOption {
+                type = lib.types.listOf lib.types.package;
+                default = [ ];
+              };
+              gtk.enable = lib.mkOption { type = lib.types.bool; default = false; };
+              gtk.theme.name = lib.mkOption { type = lib.types.nullOr lib.types.str; default = null; };
+              gtk.theme.package = lib.mkOption { type = lib.types.nullOr lib.types.package; default = null; };
+              gtk.iconTheme.name = lib.mkOption { type = lib.types.nullOr lib.types.str; default = null; };
+              gtk.iconTheme.package = lib.mkOption { type = lib.types.nullOr lib.types.package; default = null; };
+            };
+          };
         in
         {
           theme-layout = pkgs.runCommand "check-theme-layout" { } ''
@@ -62,33 +87,10 @@
 
           hm-module-eval =
             let
-              # Declares only the home-manager options the module writes to.
-              # evalModules refuses assignments to undeclared options, so the
-              # stub is required rather than optional.
-              stub = { ... }: {
-                options = {
-                  # evalModules has no built-in assertions option; real
-                  # home-manager gets one from its own base modules. The
-                  # module writes to it, so the stub must declare it too.
-                  assertions = lib.mkOption {
-                    type = lib.types.listOf lib.types.unspecified;
-                    default = [ ];
-                  };
-                  home.packages = lib.mkOption {
-                    type = lib.types.listOf lib.types.package;
-                    default = [ ];
-                  };
-                  gtk.enable = lib.mkOption { type = lib.types.bool; default = false; };
-                  gtk.theme.name = lib.mkOption { type = lib.types.nullOr lib.types.str; default = null; };
-                  gtk.theme.package = lib.mkOption { type = lib.types.nullOr lib.types.package; default = null; };
-                  gtk.iconTheme.name = lib.mkOption { type = lib.types.nullOr lib.types.str; default = null; };
-                  gtk.iconTheme.package = lib.mkOption { type = lib.types.nullOr lib.types.package; default = null; };
-                };
-              };
               evaluated = lib.evalModules {
                 specialArgs = { inherit pkgs; };
                 modules = [
-                  stub
+                  hmStub
                   self.homeManagerModules.default
                   { programs.gruvbox-gtk-theme.enable = true; }
                 ];
@@ -97,6 +99,44 @@
             pkgs.runCommand "check-hm-module-eval" { } ''
               test "${evaluated.config.gtk.theme.name}" = "Gruvbox-Dark"
               test "${lib.boolToString evaluated.config.gtk.enable}" = "true"
+              touch $out
+            '';
+
+          # lib.evalModules does not enforce config.assertions the way a real
+          # NixOS or home-manager build does; that enforcement lives in the
+          # consuming build, which is absent here. So the assertion that
+          # rejects an unknown gtkThemeName could be inverted or broken and
+          # hm-module-eval above would still pass. This check evaluates the
+          # module with a bogus gtkThemeName and asserts explicitly that
+          # exactly one assertion entry fails, with an actionable message,
+          # proving the safety net still works.
+          hm-module-rejects-unknown-theme =
+            let
+              evaluated = lib.evalModules {
+                specialArgs = { inherit pkgs; };
+                modules = [
+                  hmStub
+                  self.homeManagerModules.default
+                  {
+                    programs.gruvbox-gtk-theme = {
+                      enable = true;
+                      gtkThemeName = "Gruvbox-Nonexistent";
+                    };
+                  }
+                ];
+              };
+              failing = builtins.filter (a: !a.assertion) evaluated.config.assertions;
+              failingMessages = lib.concatStringsSep "\n" (map (a: a.message) failing);
+            in
+            pkgs.runCommand "check-hm-module-rejects-unknown-theme"
+              {
+                passAsFile = [ "failingMessages" ];
+                failingMessages = failingMessages;
+              } ''
+              test "${toString (builtins.length failing)}" = "1"
+              grep -qF "Gruvbox-Nonexistent" "$failingMessagesPath"
+              grep -qF "Gruvbox-Dark" "$failingMessagesPath"
+              grep -qF "Gruvbox-Light" "$failingMessagesPath"
               touch $out
             '';
         });
