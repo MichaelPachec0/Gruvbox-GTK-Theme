@@ -21,3 +21,6 @@ docs/
 # nix build output symlinks
 result
 result-*
+
+# Scratch space for plan execution: ledgers, briefs, review packages
+.superpowers/
