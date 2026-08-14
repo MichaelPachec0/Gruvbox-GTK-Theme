@@ -61,5 +61,55 @@ build_frame() {
     "${HERE}/compose.py" "${out}" "${args[@]}"
 }
 
+# The outline variant: same slices, plus a 2px accent bar on the outer edge of
+# each edge and corner slice. Both the bar and the frame stay scheme-aware, so
+# one outlined decoration still serves every colour scheme.
+add_outline() {
+    local file="$1"
+    python3 - "$file" <<'PY'
+import re
+import sys
+
+# Outer edges per slice, as (x, y, width, height) with 0 meaning "stretch to
+# the slice bound". Only edge and corner slices get a bar; centre does not.
+BARS = {
+    "topleft":     [("0", "0", "100%", "2"), ("0", "0", "2", "100%")],
+    "top":         [("0", "0", "100%", "2")],
+    "topright":    [("0", "0", "100%", "2"), ("-2", "0", "2", "100%")],
+    "left":        [("0", "0", "2", "100%")],
+    "right":       [("-2", "0", "2", "100%")],
+    "bottomleft":  [("0", "-2", "100%", "2"), ("0", "0", "2", "100%")],
+    "bottom":      [("0", "-2", "100%", "2")],
+    "bottomright": [("0", "-2", "100%", "2"), ("-2", "0", "2", "100%")],
+}
+
+path = sys.argv[1]
+doc = open(path, encoding="utf-8").read()
+
+def bars_for(slice_name):
+    out = []
+    for x, y, w, h in BARS[slice_name]:
+        out.append(
+            '    <rect class="ColorScheme-Highlight" fill="currentColor" '
+            'x="%s" y="%s" width="%s" height="%s"/>\n' % (x, y, w, h)
+        )
+    return "".join(out)
+
+def inject(match):
+    gid = match.group(1)
+    slice_name = gid.replace("decoration-inactive-", "").replace("decoration-", "")
+    if slice_name not in BARS:
+        return match.group(0)
+    return match.group(0) + "\n" + bars_for(slice_name)
+
+doc = re.sub(r'<g id="(decoration[a-z-]*)"[^>]*>', inject, doc)
+open(path, "w", encoding="utf-8").write(doc)
+PY
+}
+
 build_frame "${XFWM4}/assets.svg" "${HERE}/decoration.svg"
 echo "wrote ${HERE}/decoration.svg"
+
+build_frame "${XFWM4}/assets.svg" "${HERE}/decoration-outline.svg"
+add_outline "${HERE}/decoration-outline.svg"
+echo "wrote ${HERE}/decoration-outline.svg"
