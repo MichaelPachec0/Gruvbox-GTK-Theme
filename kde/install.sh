@@ -219,13 +219,12 @@ build_aurorae() {
     local css="${out}/.aurorae.css"
     sassc -t expanded "${entry}" "${css}"
 
-    local active inactive close max min neutral
+    local active inactive close max min
     active=$(grep -m1 'ActiveTextColor:' "${css}" | sed 's/.*: *//;s/;//;s/, */,/g')
     inactive=$(grep -m1 'InactiveTextColor:' "${css}" | sed 's/.*: *//;s/;//;s/, */,/g')
     close=$(grep -m1 'ButtonClose:' "${css}" | sed 's/.*: *//;s/;//')
     max=$(grep -m1 'ButtonMax:' "${css}" | sed 's/.*: *//;s/;//')
     min=$(grep -m1 'ButtonMin:' "${css}" | sed 's/.*: *//;s/;//')
-    neutral=$(grep -m1 'ButtonNeutral:' "${css}" | sed 's/.*: *//;s/;//')
     rm -f "${css}"
 
     local src_frame="${SRC_DIR}/assets/aurorae/decoration.svg"
