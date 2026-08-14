@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="144" height="34" viewBox="0 0 144 34">
+  <defs>
+    <style id="current-color-scheme" type="text/css">
+      .ColorScheme-Text { color: #fbf1c7; }
+    </style>
+  </defs>
+  <g id="active-center"><path class="ColorScheme-Text" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" d="M12,13 L18,20 L24,13"/></g>
+  <g id="hover-center" opacity="0.8"><path class="ColorScheme-Text" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" d="M48,13 L54,20 L60,13"/></g>
+  <g id="pressed-center" opacity="0.6"><path class="ColorScheme-Text" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" d="M84,13 L90,20 L96,13"/></g>
+  <g id="inactive-center" opacity="0.4"><path class="ColorScheme-Text" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" d="M120,13 L126,20 L132,13"/></g>
+</svg>

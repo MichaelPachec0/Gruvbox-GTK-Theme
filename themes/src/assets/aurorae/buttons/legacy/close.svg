@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="144" height="34" viewBox="0 0 144 34">
+  <defs>
+    <style id="current-color-scheme" type="text/css">
+      .ColorScheme-Background { color: #1d2021; }
+      .ColorScheme-Text       { color: #fbf1c7; }
+      .ColorScheme-Highlight  { color: #7daea3; }
+    </style>
+  </defs>
+  <g id="active-center" transform="translate(0,0)">
+  <g
+     transform="translate(-21,-585.36212)"
+     id="active-center__layer1">
+    <g
+       id="active-center__close-active">
+      <g
+         id="active-center__headerbar-bg">
+        <rect class="ColorScheme-Background"
+           y="585.36212"
+           x="21"
+           height="34"
+           width="36"
+           id="active-center__rect1683"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.34961;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <rect class="ColorScheme-Text"
+           style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.22474;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="active-center__rect2083"
+           width="36"
+           height="1"
+           x="21"
+           y="585.36212" />
+      </g>
+      <circle class="ColorScheme-Text"
+         id="active-center__path2409"
+         cx="39"
+         cy="602.36212"
+         r="11"
+         style="opacity:0.1;fill:currentColor" />
+      <path class="ColorScheme-Text"
+         d="m 35.464748,598.327 c -0.12775,0 -0.2555,0.0486 -0.35339,0.14649 -0.19578,0.19586 -0.19578,0.51116 0,0.70703 l 3.1816,3.1816 -3.1816,3.1816 c -0.19578,0.19586 -0.19578,0.51116 0,0.70703 0.19578,0.19586 0.51118,0.19586 0.70704,0 l 3.1816,-3.1816 3.1816,3.1816 c 0.19578,0.19586 0.51114,0.19586 0.70704,0 0.19578,-0.19586 0.19578,-0.51116 0,-0.70703 l -3.1816,-3.1816 3.1816,-3.1816 c 0.19578,-0.19586 0.19578,-0.51116 0,-0.70703 -0.19578,-0.19586 -0.51118,-0.19586 -0.70704,0 l -3.1816,3.1816 -3.1816,-3.1816 c -0.09789,-0.0979 -0.22564,-0.14649 -0.35339,-0.14649 z"
+         style="opacity:0.7;fill:currentColor;paint-order:stroke fill markers"
+         id="active-center__path2102" />
+    </g>
+  </g>
+  </g>
+  <g id="hover-center" transform="translate(36,0)">
+  <g
+     transform="translate(-61,-585.36212)"
+     id="hover-center__layer1">
+    <g
+       id="hover-center__close-prelight">
+      <g
+         id="hover-center__use1761"
+         transform="translate(40)">
+        <rect class="ColorScheme-Background"
+           y="585.36212"
+           x="21"
+           height="34"
+           width="36"
+           id="hover-center__rect1"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.34961;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <rect class="ColorScheme-Text"
+           style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.22474;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="hover-center__rect2"
+           width="36"
+           height="1"
+           x="21"
+           y="585.36212" />
+      </g>
+      <circle class="ColorScheme-Text"
+         id="hover-center__circle2545"
+         cx="79"
+         cy="602.36212"
+         r="11"
+         style="opacity:0.15;fill:currentColor" />
+      <path class="ColorScheme-Text"
+         d="m 75.464748,598.327 c -0.12775,0 -0.2555,0.0486 -0.35339,0.14649 -0.19578,0.19586 -0.19578,0.51116 0,0.70703 l 3.1816,3.1816 -3.1816,3.1816 c -0.19578,0.19586 -0.19578,0.51116 0,0.70703 0.19578,0.19586 0.51118,0.19586 0.70704,0 l 3.1816,-3.1816 3.1816,3.1816 c 0.19578,0.19586 0.51114,0.19586 0.70704,0 0.19578,-0.19586 0.19578,-0.51116 0,-0.70703 l -3.1816,-3.1816 3.1816,-3.1816 c 0.19578,-0.19586 0.19578,-0.51116 0,-0.70703 -0.19578,-0.19586 -0.51118,-0.19586 -0.70704,0 l -3.1816,3.1816 -3.1816,-3.1816 c -0.09789,-0.0979 -0.22564,-0.14649 -0.35339,-0.14649 z"
+         style="opacity:1;fill:currentColor;paint-order:stroke fill markers"
+         id="hover-center__path2869" />
+    </g>
+  </g>
+  </g>
+  <g id="pressed-center" transform="translate(72,0)">
+  <g
+     transform="translate(-101,-585.36212)"
+     id="pressed-center__layer1">
+    <g
+       id="pressed-center__close-pressed">
+      <g
+         id="pressed-center__use1845"
+         transform="translate(80)">
+        <rect class="ColorScheme-Background"
+           y="585.36212"
+           x="21"
+           height="34"
+           width="36"
+           id="pressed-center__rect1"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.34961;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <rect class="ColorScheme-Text"
+           style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.22474;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="pressed-center__rect2"
+           width="36"
+           height="1"
+           x="21"
+           y="585.36212" />
+      </g>
+      <circle class="ColorScheme-Text"
+         id="pressed-center__circle2807"
+         cx="119"
+         cy="602.36212"
+         r="11"
+         style="opacity:0.2;fill:currentColor" />
+      <path class="ColorScheme-Text"
+         d="m 115.46474,598.327 c -0.12775,0 -0.2555,0.0486 -0.35339,0.14649 -0.19578,0.19586 -0.19578,0.51116 0,0.70703 l 3.1816,3.1816 -3.1816,3.1816 c -0.19578,0.19586 -0.19578,0.51116 0,0.70703 0.19578,0.19586 0.51118,0.19586 0.70704,0 l 3.18161,-3.1816 3.1816,3.1816 c 0.19578,0.19586 0.51114,0.19586 0.70704,0 0.19578,-0.19586 0.19578,-0.51116 0,-0.70703 l -3.1816,-3.1816 3.1816,-3.1816 c 0.19578,-0.19586 0.19578,-0.51116 0,-0.70703 -0.19578,-0.19586 -0.51117,-0.19586 -0.70704,0 l -3.1816,3.1816 -3.18161,-3.1816 c -0.0979,-0.0979 -0.22564,-0.14649 -0.35339,-0.14649 z"
+         style="opacity:1;fill:currentColor;paint-order:stroke fill markers"
+         id="pressed-center__path2928" />
+    </g>
+  </g>
+  </g>
+  <g id="inactive-center" transform="translate(108,0)">
+  <g
+     transform="translate(-140,-585.36212)"
+     id="inactive-center__layer1">
+    <g
+       id="inactive-center__close-inactive"
+       transform="translate(39)">
+      <g
+         id="inactive-center__use2854"
+         transform="translate(80)">
+        <rect class="ColorScheme-Background"
+           y="585.36212"
+           x="21"
+           height="34"
+           width="36"
+           id="inactive-center__rect3363"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.34961;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      </g>
+      <circle class="ColorScheme-Text"
+         id="inactive-center__circle2856"
+         cx="119"
+         cy="602.36212"
+         r="11"
+         style="opacity:0.05;fill:currentColor" />
+      <path class="ColorScheme-Text"
+         d="m 115.46474,598.327 c -0.12775,0 -0.2555,0.0486 -0.35339,0.14649 -0.19578,0.19586 -0.19578,0.51116 0,0.70703 l 3.1816,3.1816 -3.1816,3.1816 c -0.19578,0.19586 -0.19578,0.51116 0,0.70703 0.19578,0.19586 0.51118,0.19586 0.70704,0 l 3.18161,-3.1816 3.1816,3.1816 c 0.19578,0.19586 0.51114,0.19586 0.70704,0 0.19578,-0.19586 0.19578,-0.51116 0,-0.70703 l -3.1816,-3.1816 3.1816,-3.1816 c 0.19578,-0.19586 0.19578,-0.51116 0,-0.70703 -0.19578,-0.19586 -0.51117,-0.19586 -0.70704,0 l -3.1816,3.1816 -3.18161,-3.1816 c -0.0979,-0.0979 -0.22564,-0.14649 -0.35339,-0.14649 z"
+         style="opacity:0.3;fill:currentColor;paint-order:stroke fill markers"
+         id="inactive-center__path2858" />
+    </g>
+  </g>
+  </g>
+</svg>

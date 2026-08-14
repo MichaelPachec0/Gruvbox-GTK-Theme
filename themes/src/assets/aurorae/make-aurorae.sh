@@ -113,3 +113,45 @@ echo "wrote ${HERE}/decoration.svg"
 build_frame "${XFWM4}/assets.svg" "${HERE}/decoration-outline.svg"
 add_outline "${HERE}/decoration-outline.svg"
 echo "wrote ${HERE}/decoration-outline.svg"
+
+# glyph name in xfwm4 -> Aurorae file name
+BUTTONS=(
+    "close=close"
+    "minimize=hide"
+    "maximize=maximize"
+    "restore=maximize-toggled"
+    "alldesktops=stick"
+)
+
+# xfwm4 state suffix -> Aurorae element prefix
+STATES=(
+    "active=active"
+    "hover=prelight"
+    "pressed=pressed"
+    "inactive=inactive"
+)
+
+build_buttons() {
+    local master="$1" outdir="$2"
+    mkdir -p "${outdir}"
+
+    local pair target source spair sname ssuffix args
+
+    for pair in "${BUTTONS[@]}"; do
+        target="${pair%%=*}"
+        source="${pair#*=}"
+        args=()
+        for spair in "${STATES[@]}"; do
+            sname="${spair%%=*}"
+            ssuffix="${spair#*=}"
+            extract "${master}" "${source}-${ssuffix}" \
+                "${WORK}/${target}-${sname}.svg"
+            args+=("${sname}-center=${WORK}/${target}-${sname}.svg")
+        done
+        "${HERE}/compose.py" "${outdir}/${target}.svg" "${args[@]}"
+        echo "wrote ${outdir}/${target}.svg"
+    done
+}
+
+build_buttons "${XFWM4}/assets.svg"       "${HERE}/buttons/legacy"
+build_buttons "${XFWM4}/assets-Macos.svg" "${HERE}/buttons/macos"

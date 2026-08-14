@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="33.9999" viewBox="0 0 128 33.9999">
+  <defs>
+    <style id="current-color-scheme" type="text/css">
+      .ColorScheme-Background { color: #1d2021; }
+      .ColorScheme-Text       { color: #fbf1c7; }
+      .ColorScheme-Highlight  { color: #7daea3; }
+    </style>
+  </defs>
+  <g id="active-center" transform="translate(0,0)">
+  <g
+     transform="translate(-21,-585.36212)"
+     id="active-center__layer1">
+    <g
+       id="active-center__close-active"
+       transform="matrix(1,0,0,0.9999982,0,0.00105081)">
+      <g
+         id="active-center__headerbar-bg">
+        <rect class="ColorScheme-Background"
+           y="585.36212"
+           x="21"
+           height="34"
+           width="32"
+           id="active-center__rect1683"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.27242;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <rect class="ColorScheme-Text"
+           style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.1547;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="active-center__rect2083"
+           width="32"
+           height="1"
+           x="21"
+           y="585.36212" />
+      </g>
+      <circle
+         style="opacity:1;fill:#ea6962;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="active-center__path2409"
+         cx="37"
+         cy="602.36212"
+         r="8" />
+    </g>
+  </g>
+  </g>
+  <g id="hover-center" transform="translate(32,0)">
+  <g
+     transform="translate(-61,-585.36212)"
+     id="hover-center__layer1">
+    <g
+       id="hover-center__close-prelight"
+       transform="matrix(1,0,0,0.9999982,0,0.00105081)">
+      <g
+         id="hover-center__use1761"
+         transform="translate(40)">
+        <rect class="ColorScheme-Background"
+           y="585.36212"
+           x="21"
+           height="34"
+           width="32"
+           id="hover-center__rect7"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.27242;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <rect class="ColorScheme-Text"
+           style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.1547;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="hover-center__rect8"
+           width="32"
+           height="1"
+           x="21"
+           y="585.36212" />
+      </g>
+      <circle
+         style="opacity:1;fill:#c14a4a;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="hover-center__circle2545"
+         cx="77"
+         cy="602.36212"
+         r="8" />
+      <path class="ColorScheme-Text"
+         d="m 73.46475,598.327 c -0.12775,0 -0.2555,0.0486 -0.35339,0.14649 -0.19578,0.19586 -0.19578,0.51116 0,0.70703 l 3.1816,3.1816 -3.1816,3.1816 c -0.19578,0.19586 -0.19578,0.51116 0,0.70703 0.19578,0.19586 0.51118,0.19586 0.70704,0 l 3.1816,-3.1816 3.1816,3.1816 c 0.19578,0.19586 0.51114,0.19586 0.70704,0 0.19578,-0.19586 0.19578,-0.51116 0,-0.70703 l -3.1816,-3.1816 3.1816,-3.1816 c 0.19578,-0.19586 0.19578,-0.51116 0,-0.70703 -0.19578,-0.19586 -0.51118,-0.19586 -0.70704,0 l -3.1816,3.1816 -3.1816,-3.1816 c -0.09789,-0.0979 -0.22564,-0.14649 -0.35339,-0.14649 z"
+         style="fill:currentColor;paint-order:stroke fill markers"
+         id="hover-center__path2869" />
+    </g>
+  </g>
+  </g>
+  <g id="pressed-center" transform="translate(64,0)">
+  <g
+     transform="translate(-101,-585.36212)"
+     id="pressed-center__layer1">
+    <g
+       id="pressed-center__close-pressed"
+       transform="matrix(1,0,0,0.9999982,0,0.00105081)">
+      <g
+         id="pressed-center__use1845"
+         transform="translate(80)">
+        <rect class="ColorScheme-Background"
+           y="585.36212"
+           x="21"
+           height="34"
+           width="32"
+           id="pressed-center__rect15"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.27242;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <rect class="ColorScheme-Text"
+           style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.1547;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="pressed-center__rect16"
+           width="32"
+           height="1"
+           x="21"
+           y="585.36212" />
+      </g>
+      <circle
+         style="opacity:1;fill:#ea6962;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="pressed-center__circle2547"
+         cx="117"
+         cy="602.36212"
+         r="8" />
+      <circle class="ColorScheme-Text"
+         style="opacity:0.25;fill:currentColor;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="pressed-center__circle2807"
+         cx="117"
+         cy="602.36212"
+         r="8" />
+      <path class="ColorScheme-Background"
+         d="m 113.46474,598.327 c -0.12775,0 -0.2555,0.0486 -0.35339,0.14649 -0.19578,0.19586 -0.19578,0.51116 0,0.70703 l 3.1816,3.1816 -3.1816,3.1816 c -0.19578,0.19586 -0.19578,0.51116 0,0.70703 0.19578,0.19586 0.51118,0.19586 0.70704,0 l 3.18161,-3.1816 3.1816,3.1816 c 0.19578,0.19586 0.51114,0.19586 0.70704,0 0.19578,-0.19586 0.19578,-0.51116 0,-0.70703 l -3.1816,-3.1816 3.1816,-3.1816 c 0.19578,-0.19586 0.19578,-0.51116 0,-0.70703 -0.19578,-0.19586 -0.51117,-0.19586 -0.70704,0 l -3.1816,3.1816 -3.18161,-3.1816 c -0.0979,-0.0979 -0.22564,-0.14649 -0.35339,-0.14649 z"
+         style="fill:currentColor;fill-opacity:1;paint-order:stroke fill markers"
+         id="pressed-center__path2928" />
+    </g>
+  </g>
+  </g>
+  <g id="inactive-center" transform="translate(96,0)">
+  <g
+     transform="translate(-141,-585.36206)"
+     id="inactive-center__layer1">
+    <g
+       id="inactive-center__close-inactive"
+       transform="matrix(1,0,0,0.9999982,0,0.00105081)">
+      <g
+         id="inactive-center__headerbar-inactive-bg"
+         transform="translate(120)">
+        <rect class="ColorScheme-Background"
+           y="585.36206"
+           x="21"
+           height="34"
+           width="32"
+           id="inactive-center__rect2007"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.27242;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      </g>
+      <circle class="ColorScheme-Text"
+         style="opacity:0.3;fill:currentColor;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="inactive-center__circle2549"
+         cx="157"
+         cy="602.36212"
+         r="8" />
+    </g>
+  </g>
+  </g>
+</svg>

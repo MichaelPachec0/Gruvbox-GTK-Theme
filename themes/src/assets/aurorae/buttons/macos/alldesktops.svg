@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="34" viewBox="0 0 128 34">
+  <defs>
+    <style id="current-color-scheme" type="text/css">
+      .ColorScheme-Background { color: #1d2021; }
+      .ColorScheme-Text       { color: #fbf1c7; }
+      .ColorScheme-Highlight  { color: #7daea3; }
+    </style>
+  </defs>
+  <g id="active-center" transform="translate(0,0)">
+  <g
+     transform="translate(-211,-688.36221)"
+     id="active-center__layer1">
+    <g
+       id="active-center__stick-active">
+      <g
+         id="active-center__use1897"
+         transform="translate(190,103.00009)">
+        <rect class="ColorScheme-Background"
+           y="585.36212"
+           x="21"
+           height="34"
+           width="32"
+           id="active-center__rect23"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.27242;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <rect class="ColorScheme-Text"
+           style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.1547;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="active-center__rect24"
+           width="32"
+           height="1"
+           x="21"
+           y="585.36212" />
+      </g>
+      <path class="ColorScheme-Text"
+         d="m 227,699.36215 a 6,6 0 0 0 -6,6 6,6 0 0 0 6,6 6,6 0 0 0 6,-6 6,6 0 0 0 -6,-6 z m 0,1 a 5,5 0 0 1 5,5 5,5 0 0 1 -5,5 5,5 0 0 1 -5,-5 5,5 0 0 1 5,-5 z"
+         id="active-center__path66"
+         style="opacity:0.75;fill:currentColor" />
+    </g>
+  </g>
+  </g>
+  <g id="hover-center" transform="translate(32,0)">
+  <g
+     transform="translate(-251,-688.36221)"
+     id="hover-center__layer1">
+    <g
+       id="hover-center__stick-prelight">
+      <g
+         id="hover-center__use1899"
+         transform="translate(230,103.00009)">
+        <rect class="ColorScheme-Background"
+           y="585.36212"
+           x="21"
+           height="34"
+           width="32"
+           id="hover-center__rect33"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.27242;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <rect class="ColorScheme-Text"
+           style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.1547;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="hover-center__rect34"
+           width="32"
+           height="1"
+           x="21"
+           y="585.36212" />
+      </g>
+      <circle class="ColorScheme-Text"
+         style="opacity:0.15;fill:currentColor;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="hover-center__circle3362"
+         cx="267"
+         cy="705.36212"
+         r="8" />
+      <path class="ColorScheme-Text"
+         d="m 267,699.36215 a 6,6 0 0 0 -6,6 6,6 0 0 0 6,6 6,6 0 0 0 6,-6 6,6 0 0 0 -6,-6 z m 0,1 a 5,5 0 0 1 5,5 5,5 0 0 1 -5,5 5,5 0 0 1 -5,-5 5,5 0 0 1 5,-5 z"
+         id="hover-center__path3412"
+         style="opacity:0.75;fill:currentColor" />
+    </g>
+  </g>
+  </g>
+  <g id="pressed-center" transform="translate(64,0)">
+  <g
+     transform="translate(-291,-688.36221)"
+     id="pressed-center__layer1">
+    <g
+       id="pressed-center__stick-pressed">
+      <g
+         id="pressed-center__use1901"
+         transform="translate(270,103.00009)">
+        <rect class="ColorScheme-Background"
+           y="585.36212"
+           x="21"
+           height="34"
+           width="32"
+           id="pressed-center__rect43"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.27242;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <rect class="ColorScheme-Text"
+           style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.1547;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="pressed-center__rect44"
+           width="32"
+           height="1"
+           x="21"
+           y="585.36212" />
+      </g>
+      <circle class="ColorScheme-Text"
+         style="opacity:0.25;fill:currentColor;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="pressed-center__circle3390"
+         cx="307"
+         cy="705.36212"
+         r="8" />
+      <path class="ColorScheme-Text"
+         d="m 307,699.36215 a 6,6 0 0 0 -6,6 6,6 0 0 0 6,6 6,6 0 0 0 6,-6 6,6 0 0 0 -6,-6 z m 0,1 a 5,5 0 0 1 5,5 5,5 0 0 1 -5,5 5,5 0 0 1 -5,-5 5,5 0 0 1 5,-5 z"
+         id="pressed-center__path3422"
+         style="opacity:0.75;fill:currentColor" />
+    </g>
+  </g>
+  </g>
+  <g id="inactive-center" transform="translate(96,0)">
+  <g
+     transform="translate(-331,-688.36209)"
+     id="inactive-center__layer1">
+    <g
+       id="inactive-center__stick-inactive">
+      <g
+         id="inactive-center__use2295"
+         transform="translate(310,103.00003)">
+        <rect class="ColorScheme-Background"
+           y="585.36206"
+           x="21"
+           height="34"
+           width="32"
+           id="inactive-center__rect58"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.27242;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      </g>
+      <path class="ColorScheme-Text"
+         d="m 347,699.36215 a 6,6 0 0 0 -6,6 6,6 0 0 0 6,6 6,6 0 0 0 6,-6 6,6 0 0 0 -6,-6 z m 0,1 a 5,5 0 0 1 5,5 5,5 0 0 1 -5,5 5,5 0 0 1 -5,-5 5,5 0 0 1 5,-5 z"
+         id="inactive-center__path3432"
+         style="opacity:0.3;fill:currentColor" />
+    </g>
+  </g>
+  </g>
+</svg>
