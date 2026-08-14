@@ -1,0 +1,16 @@
+// Colours the Aurorae decoration needs that the colour scheme cannot supply.
+//
+// The title text comes from the palette. The three button colours are Gruvbox
+// traffic lights with no colour scheme equivalent, so they are emitted here
+// as hex for substitution into the button SVGs.
+
+@import 'emit';
+
+Aurorae {
+	ActiveTextColor: triple($titlebar-text, $titlebar);
+	InactiveTextColor: triple($titlebar-text-secondary, $titlebar-backdrop);
+	ButtonClose: #{$titlebutton-close};
+	ButtonMax: #{$titlebutton-max};
+	ButtonMin: #{$titlebutton-min};
+	ButtonNeutral: #{$titlebar-text};
+}
