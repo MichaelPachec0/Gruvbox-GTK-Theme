@@ -424,6 +424,7 @@ $sub_menu_bg: mix($text, $popover, 10%);
 		padding: $space-size;
 		border-radius: $menu-radius;
 		background-color: $popover;
+		box-shadow: 0 5px 12px rgba(black, 0.35);
 
 		@include floating-border;
 	}
@@ -1061,11 +1062,12 @@ $sub_menu_bg: mix($text, $popover, 10%);
 .calendar-event-button {
 	margin: $space-size 0 $space-size 0;
 	border-radius: $menuitem-radius;
+	background-color: $fill;
 
+	// $divider, not $fill: the parent .calendar-events-main-box already
+	// paints a $fill gradient, so a $fill hover is nearly invisible on it.
 	&:hover {
-		background-gradient-direction: vertical;
-		background-gradient-start: $fill;
-		background-gradient-end: $fill;
+		background-color: $divider;
 		box-shadow: none;
 	}
 }
@@ -1161,8 +1163,11 @@ $sub_menu_bg: mix($text, $popover, 10%);
 		box-shadow: none;
 		margin: 0;
 
+		// $divider is a translucent overlay, so it lightens whatever the
+		// row is sitting on. $surface resolves to the popup menu's own
+		// background in the dark variant, which made the row vanish.
 		&:hover {
-			background-color: $surface;
+			background-color: $divider;
 			box-shadow: 0 3px 8px rgba(black, 0.15);
 		}
 
@@ -1339,6 +1344,9 @@ $sub_menu_bg: mix($text, $popover, 10%);
 	background-color: rgba($background, 0.95);
 	padding: $space-size;
 	border-radius: $corner-radius;
+	box-shadow:
+		0 3px 8px rgba(black, 0.75),
+		0 5px 18px rgba(black, 0.55);
 
 	@include floating-border;
 
