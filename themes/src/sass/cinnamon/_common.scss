@@ -1907,7 +1907,7 @@ $ws_dot_inactive: $ws_indicator_height / 6;
 	@extend %title_4;
 
 	margin-bottom: 1em;
-	border-radius: 9999px;
+	border-radius: $circular-radius;
 	font-weight: bold;
 	spacing: $space-size * 2;
 	padding: $space-size * 2 $space-size * 4;
@@ -1990,19 +1990,15 @@ $ws_dot_inactive: $ws_indicator_height / 6;
 }
 
 .workspace-switch-osd {
+	@extend %osd_base;
 	@extend %title_4;
+
 	color: $primary;
-	background-color: transparentize($background, 0.01);
-
 	@include floating-border;
-
-	border-radius: $modal-radius;
-	text-align: center;
-	padding: $space-size * 4;
 
 	min-width: 140px;
 	margin-bottom: 1em;
-	border-radius: 9999px;
+	border-radius: $circular-radius;
 	font-weight: bold;
 	padding: $space-size * 2 $space-size * 6 0 $space-size * 6;
 
