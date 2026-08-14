@@ -5,47 +5,47 @@
 /* General Typography */
 %large_title {
 	font-weight: 300;
-	@include fontsize(24pt);
+	@include fontsize(24);
 }
 
 %title_1 {
 	font-weight: 800;
-	@include fontsize(20pt);
+	@include fontsize(20);
 }
 
 %title_2 {
 	font-weight: 800;
-	@include fontsize(15pt);
+	@include fontsize(15);
 }
 
 %title_3 {
 	font-weight: 700;
-	@include fontsize(15pt);
+	@include fontsize(15);
 }
 
 %title_4 {
 	font-weight: 700;
-	@include fontsize(13pt);
+	@include fontsize(13);
 }
 
 %heading {
 	font-weight: 700;
-	@include fontsize(11pt);
+	@include fontsize(11);
 }
 
 %caption_heading {
 	font-weight: 700;
-	@include fontsize(9pt);
+	@include fontsize(9);
 }
 
 %caption {
 	font-weight: 400;
-	@include fontsize(9pt);
+	@include fontsize(9);
 }
 
 %smaller {
 	font-weight: 400;
-	@include fontsize(8pt);
+	@include fontsize(8);
 }
 
 $asset_path: assets;
@@ -1397,11 +1397,17 @@ $sub_menu_bg: mix($text, $popover, 10%);
 
 	// End session dialog
 
-	.end-session-dialog {
+	// dialog.js puts 'end-session-dialog' on the same actor that already
+	// carries 'dialog', so this has to be a compound selector, not a
+	// descendant one.
+	&.end-session-dialog {
 		min-width: 40em;
 
 		.dialog-content-box {
 			spacing: 0;
+			// This dialog sets its own width; the shared 18em cap above
+			// would otherwise squeeze its content into a 40em box.
+			max-width: none;
 		}
 
 		.dialog-list {
@@ -1409,7 +1415,7 @@ $sub_menu_bg: mix($text, $popover, 10%);
 
 			.dialog-list-title {
 				color: $warning;
-				background-color: tranparentize($warning, 0.9);
+				background-color: transparentize($warning, 0.9);
 				padding: $space-size * 1.5;
 				border-radius: $corner-radius;
 				margin: $space-size 0;
@@ -1484,6 +1490,9 @@ $sub_menu_bg: mix($text, $popover, 10%);
 	.dialog-content-box {
 		spacing: $space-size * 4;
 		margin-bottom: $space-size * 3;
+		// The password entry below is 20em wide, so the shared 18em cap
+		// on .dialog .dialog-content-box would squeeze it.
+		max-width: none;
 	}
 
 	&-password-entry {
@@ -1976,7 +1985,6 @@ $ws_dot_inactive: $ws_indicator_height / 6;
 	@extend %title_4;
 	color: $primary;
 	background-color: transparentize($background, 0.01);
-	/* border: 1px solid transparentize($divider, 0.01); */
 
 	@include floating-border;
 
