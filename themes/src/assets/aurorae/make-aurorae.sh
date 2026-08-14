@@ -59,6 +59,29 @@ build_frame() {
     done
 
     "${HERE}/compose.py" "${out}" "${args[@]}"
+    add_center "${out}"
+}
+
+# decoration-center has no source element: it must exist so FrameSvg has a
+# bounding box for the client area, and must not paint. Emitted here rather
+# than appended by hand, because build_frame rewrites the file from scratch
+# and would drop a manual edit on the next run without saying so.
+add_center() {
+    local file="$1"
+    python3 - "$file" <<'PY'
+import sys
+
+path = sys.argv[1]
+doc = open(path, encoding="utf-8").read()
+if 'id="decoration-center"' not in doc:
+    group = (
+        '  <g id="decoration-center">\n'
+        '    <rect x="0" y="0" width="1" height="1" fill="none"/>\n'
+        '  </g>\n'
+    )
+    doc = doc.replace("</svg>", group + "</svg>")
+    open(path, "w", encoding="utf-8").write(doc)
+PY
 }
 
 # The outline variant: same slices, plus a 2px accent bar on the outer edge of
