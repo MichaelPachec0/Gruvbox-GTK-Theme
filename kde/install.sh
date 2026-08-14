@@ -112,7 +112,7 @@ scheme_name() {
 }
 
 # Writes _tweaks-temp.scss for one combination. The file is tracked, so
-# restore_tweaks must run before the script exits.
+# cleanup must run before the script exits.
 # The palette and blackness are set independently, because they combine.
 write_tweaks() {
     local accent="$1" contrast="$2"
@@ -135,10 +135,18 @@ write_tweaks() {
     fi
 }
 
-restore_tweaks() {
+# Everything this script writes outside the destination directory is removed
+# here, on EXIT, so that a failure partway through a variant leaves the
+# working tree exactly as it was found. build_one's own rm at the end of a
+# successful pass is not enough: if sassc or the awk redirection fails, that
+# line is never reached and the generated entry point is left behind in a
+# tracked directory.
+cleanup() {
     cp -f "${SRC_DIR}/sass/_tweaks.scss" "${SRC_DIR}/sass/_tweaks-temp.scss"
+    rm -f "${SRC_DIR}"/main/kde/.generated-*.scss \
+          "${SRC_DIR}"/main/kde/.generated-*.scss.css
 }
-trap restore_tweaks EXIT
+trap cleanup EXIT
 
 build_one() {
     local accent="$1" color="$2" contrast="$3"
