@@ -298,6 +298,29 @@
                 exit 1
               fi
             done
+
+            # Proof that flatten() is actually compositing, which none of the
+            # arms above can establish. rgbtriple() calls Sass red/green/blue,
+            # which ignore alpha, so dropping flatten() does not leak "rgba("
+            # into the file: it silently emits the raw uncomposited channels.
+            #
+            # The invariant: in the LIGHT scheme $text is rgba(29,32,33,0.87),
+            # so it composites to a different value over Colors:Window's
+            # background than over Colors:View's. If flatten() were removed
+            # both would collapse to the raw 29,32,33 and become equal.
+            # Deliberately not asserted for Dark, where $text is opaque and
+            # the two are legitimately identical.
+            light=${kdeSchemes}/share/color-schemes/Gruvbox-Light-Hard.colors
+            win=$(sed -n '/^\[Colors:Window\]/,/^\[/p' "$light" \
+              | grep -m1 '^ForegroundNormal=' | cut -d= -f2)
+            view=$(sed -n '/^\[Colors:View\]/,/^\[/p' "$light" \
+              | grep -m1 '^ForegroundNormal=' | cut -d= -f2)
+            if [ "$win" = "$view" ]; then
+              echo "light ForegroundNormal is $win in both Colors:Window and Colors:View" >&2
+              echo "a translucent text colour must composite differently over different" >&2
+              echo "section backgrounds, so flatten() is not being applied" >&2
+              exit 1
+            fi
             touch $out
           '';
 
