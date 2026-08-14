@@ -5,47 +5,47 @@
 /* General Typography */
 %large_title {
 	font-weight: 300;
-	@include fontsize(24pt);
+	@include fontsize(24);
 }
 
 %title_1 {
 	font-weight: 800;
-	@include fontsize(20pt);
+	@include fontsize(20);
 }
 
 %title_2 {
 	font-weight: 800;
-	@include fontsize(15pt);
+	@include fontsize(15);
 }
 
 %title_3 {
 	font-weight: 700;
-	@include fontsize(15pt);
+	@include fontsize(15);
 }
 
 %title_4 {
 	font-weight: 700;
-	@include fontsize(13pt);
+	@include fontsize(13);
 }
 
 %heading {
 	font-weight: 700;
-	@include fontsize(11pt);
+	@include fontsize(11);
 }
 
 %caption_heading {
 	font-weight: 700;
-	@include fontsize(9pt);
+	@include fontsize(9);
 }
 
 %caption {
 	font-weight: 400;
-	@include fontsize(9pt);
+	@include fontsize(9);
 }
 
 %smaller {
 	font-weight: 400;
-	@include fontsize(8pt);
+	@include fontsize(8);
 }
 
 $asset_path: assets;
@@ -87,7 +87,6 @@ stage {
 	&:hover {
 		@include button(hover);
 		border-radius: $corner-radius;
-		color: $primary;
 	}
 	&:hover:focus {
 		@include button(focus-hover);
@@ -119,7 +118,6 @@ stage {
 	&:insensitive {
 		@include button(flat-insensitive);
 		border-radius: $corner-radius;
-		color: $error;
 	}
 }
 
@@ -426,13 +424,9 @@ $sub_menu_bg: mix($text, $popover, 10%);
 		padding: $space-size;
 		border-radius: $menu-radius;
 		background-color: $popover;
+		box-shadow: 0 5px 12px rgba(black, 0.35);
 
-		@if $outline == 'false' and $variant == 'dark' {
-			border: 1px solid highlight($popover);
-			background-clip: border-box;
-		} @else {
-			border: 2px solid $primary;
-		}
+		@include floating-border;
 	}
 
 	.popup-menu-item {
@@ -484,12 +478,7 @@ $sub_menu_bg: mix($text, $popover, 10%);
 
 	padding: $space-size;
 
-	@if $outline == 'false' and $variant == 'dark' {
-		border: 1px solid highlight($popover);
-		background-clip: border-box;
-	} @else {
-		border: 2px solid $primary;
-	}
+	@include floating-border;
 }
 
 // .popup-image-menu-item {}
@@ -1073,11 +1062,12 @@ $sub_menu_bg: mix($text, $popover, 10%);
 .calendar-event-button {
 	margin: $space-size 0 $space-size 0;
 	border-radius: $menuitem-radius;
+	background-color: $fill;
 
+	// $divider, not $fill: the parent .calendar-events-main-box already
+	// paints a $fill gradient, so a $fill hover is nearly invisible on it.
 	&:hover {
-		background-gradient-direction: vertical;
-		background-gradient-start: $fill;
-		background-gradient-end: $fill;
+		background-color: $divider;
 		box-shadow: none;
 	}
 }
@@ -1153,12 +1143,7 @@ $sub_menu_bg: mix($text, $popover, 10%);
 	box-shadow: 0 5px 12px rgba(black, 0.35);
 	margin: 7px 12px 17px 12px;
 
-	@if $outline == 'false' and $variant == 'dark' {
-		border: 1px solid highlight($popover);
-		background-clip: border-box;
-	} @else {
-		border: 2px solid $primary;
-	}
+	@include floating-border;
 
 	.notification-button,
 	.notification-icon-button {
@@ -1178,8 +1163,11 @@ $sub_menu_bg: mix($text, $popover, 10%);
 		box-shadow: none;
 		margin: 0;
 
+		// $divider is a translucent overlay, so it lightens whatever the
+		// row is sitting on. $surface resolves to the popup menu's own
+		// background in the dark variant, which made the row vanish.
 		&:hover {
-			background-color: $surface;
+			background-color: $divider;
 			box-shadow: 0 3px 8px rgba(black, 0.15);
 		}
 
@@ -1356,13 +1344,11 @@ $sub_menu_bg: mix($text, $popover, 10%);
 	background-color: rgba($background, 0.95);
 	padding: $space-size;
 	border-radius: $corner-radius;
+	box-shadow:
+		0 3px 8px rgba(black, 0.75),
+		0 5px 18px rgba(black, 0.55);
 
-	@if $outline == 'false' and $variant == 'dark' {
-		border: 1px solid highlight($popover);
-		background-clip: border-box;
-	} @else {
-		border: 2px solid $primary;
-	}
+	@include floating-border;
 
 	> StBoxLayout:first-child {
 		padding: 20px 10px 10px 10px;
@@ -1394,17 +1380,21 @@ $sub_menu_bg: mix($text, $popover, 10%);
 	.dialog-button {
 		@extend %button;
 
+		// :default is the button the Return key activates (dialog.js:160),
+		// which is the affirmative action, not the dangerous one. Only
+		// :destructive-action gets the error colour.
 		&:default {
 			@extend %flat_button;
-			&:hover {
-				background-color: lighten($error, 8%) !important;
-				color: on($error) !important;
-			}
 		}
 		&:destructive-action {
 			@extend %flat_button;
 			background-color: $error;
 			color: on($error);
+
+			&:hover {
+				background-color: lighten($error, 8%);
+				color: on($error);
+			}
 		}
 	}
 
@@ -1415,11 +1405,17 @@ $sub_menu_bg: mix($text, $popover, 10%);
 
 	// End session dialog
 
-	.end-session-dialog {
+	// dialog.js puts 'end-session-dialog' on the same actor that already
+	// carries 'dialog', so this has to be a compound selector, not a
+	// descendant one.
+	&.end-session-dialog {
 		min-width: 40em;
 
 		.dialog-content-box {
 			spacing: 0;
+			// This dialog sets its own width; the shared 18em cap above
+			// would otherwise squeeze its content into a 40em box.
+			max-width: none;
 		}
 
 		.dialog-list {
@@ -1427,7 +1423,7 @@ $sub_menu_bg: mix($text, $popover, 10%);
 
 			.dialog-list-title {
 				color: $warning;
-				background-color: tranparentize($warning, 0.9);
+				background-color: transparentize($warning, 0.9);
 				padding: $space-size * 1.5;
 				border-radius: $corner-radius;
 				margin: $space-size 0;
@@ -1495,18 +1491,16 @@ $sub_menu_bg: mix($text, $popover, 10%);
 // password or authentication dialog
 
 .prompt-dialog {
-	@if $outline == 'false' and $variant == 'dark' {
-		border: 1px solid highlight($popover);
-		background-clip: border-box;
-	} @else {
-		border: 2px solid $primary;
-	}
+	@include floating-border;
 
 	width: 26em;
 
 	.dialog-content-box {
 		spacing: $space-size * 4;
 		margin-bottom: $space-size * 3;
+		// The password entry below is 20em wide, so the shared 18em cap
+		// on .dialog .dialog-content-box would squeeze it.
+		max-width: none;
 	}
 
 	&-password-entry {
@@ -1913,7 +1907,7 @@ $ws_dot_inactive: $ws_indicator_height / 6;
 	@extend %title_4;
 
 	margin-bottom: 1em;
-	border-radius: 9999px;
+	border-radius: $circular-radius;
 	font-weight: bold;
 	spacing: $space-size * 2;
 	padding: $space-size * 2 $space-size * 4;
@@ -1996,25 +1990,15 @@ $ws_dot_inactive: $ws_indicator_height / 6;
 }
 
 .workspace-switch-osd {
+	@extend %osd_base;
 	@extend %title_4;
+
 	color: $primary;
-	background-color: transparentize($background, 0.01);
-	/* border: 1px solid transparentize($divider, 0.01); */
-
-	@if $outline == 'false' and $variant == 'dark' {
-		border: 1px solid highlight($popover);
-		background-clip: border-box;
-	} @else {
-		border: 2px solid $primary;
-	}
-
-	border-radius: $modal-radius;
-	text-align: center;
-	padding: $space-size * 4;
+	@include floating-border;
 
 	min-width: 140px;
 	margin-bottom: 1em;
-	border-radius: 9999px;
+	border-radius: $circular-radius;
 	font-weight: bold;
 	padding: $space-size * 2 $space-size * 6 0 $space-size * 6;
 
@@ -2200,15 +2184,9 @@ $ws_dot_inactive: $ws_indicator_height / 6;
 		margin: $space-size;
 		background-color: $popover;
 		border-radius: $menu-radius;
-		background-clip: border-box;
 		box-shadow: 0 5px 12px rgba(black, 0.35);
 
-		@if $outline == 'false' and $variant == 'dark' {
-			border: 1px solid highlight($popover);
-			background-clip: border-box;
-		} @else {
-			border: 2px solid $primary;
-		}
+		@include floating-border;
 
 		.item-box {
 			padding: $space-size;

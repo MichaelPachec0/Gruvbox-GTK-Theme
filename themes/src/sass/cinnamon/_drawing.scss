@@ -7,6 +7,23 @@
 	font-size: round($size) + pt;
 }
 
+// Border for popovers, dialogs and other floating surfaces.
+//
+// The 2px accent border is the opt-in `--tweaks outline` style, so it is
+// keyed on $outline being 'true' and never applies by default. Without it,
+// the dark variant gets a hairline to separate the surface from the content
+// behind it; the light variant relies on its drop shadow instead.
+@mixin floating-border($hairline: highlight($popover)) {
+	@if $outline == 'true' {
+		border: 2px solid $primary;
+	} @else if $variant == 'dark' {
+		border: 1px solid $hairline;
+		background-clip: border-box;
+	} @else {
+		border: none;
+	}
+}
+
 // Entries
 
 @mixin entry($t, $dark: false) {
@@ -78,7 +95,7 @@
 		background-color: $fill;
 	} @else if $t==flat {
 		color: $text-secondary;
-		background-color: $fill;
+		background-color: transparent;
 	} @else if $t==flat-hover {
 		color: $text;
 		background-color: $divider;
@@ -87,7 +104,7 @@
 		background-color: $track;
 	} @else if $t==flat-insensitive {
 		color: $text-secondary-disabled;
-		background-color: $fill;
+		background-color: transparent;
 	} @else if $t==osd {
 		color: on(black, secondary);
 		background-color: on(black, fill);
