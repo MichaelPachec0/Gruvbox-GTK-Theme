@@ -13,6 +13,7 @@
       packages = forAllSystems (pkgs: rec {
         gruvbox-gtk-theme = pkgs.callPackage ./nix/package.nix { };
         gruvbox-icon-theme = pkgs.callPackage ./nix/icons.nix { };
+        gruvbox-kde-color-schemes = pkgs.callPackage ./nix/kde-package.nix { };
         list-variants = pkgs.callPackage ./nix/list-variants.nix { };
         default = gruvbox-gtk-theme;
       });
@@ -59,6 +60,7 @@
             { label = "colors (-c)"; words = variants.colors; }
             { label = "sizes (-s)"; words = variants.sizes; }
             { label = "tweaks"; words = variants.tweaks; }
+            { label = "contrasts (--contrast)"; words = variants.contrasts; }
           ];
 
           # The complete enumeration, compared line for line rather than
@@ -66,6 +68,10 @@
           expectedNames = variants.allThemeDirNames "Gruvbox";
           expectedNamesFile = pkgs.writeText "expected-theme-names"
             (lib.concatMapStringsSep "\n" (n: "  ${n}") expectedNames + "\n");
+
+          expectedSchemeNames = variants.allColorSchemeNames "Gruvbox";
+          expectedSchemeNamesFile = pkgs.writeText "expected-scheme-names"
+            (lib.concatMapStringsSep "\n" (n: "  ${n}") expectedSchemeNames + "\n");
 
           # Declares only the home-manager options the module writes to.
           # evalModules refuses assignments to undeclared options, so the
@@ -121,11 +127,29 @@
                 (r: "row_has ${lib.escapeShellArgs ([ r.label ] ++ r.words)}")
                 expectedRows}
 
-              # Every line that is an installable name, in printed order.
-              grep -E '^  Gruvbox' listed.txt > printed-names.txt
+              # Theme directory names and colour scheme names live in disjoint
+              # sections of the printed output, headed by "All N installable
+              # theme names" and "All N KDE colour scheme names:"
+              # respectively. Scoping each grep to its own section by header
+              # is required, not cosmetic: a theme directory name and a
+              # colour scheme name can be the exact same string (for example
+              # Gruvbox-Light-Soft names both a GTK theme directory and a KDE
+              # colour scheme), so a suffix-based split cannot tell them
+              # apart, but the section they print in always can.
+              awk '/^All [0-9]+ installable theme names$/,/^All [0-9]+ KDE colour scheme names:$/' listed.txt \
+                | grep -E '^  Gruvbox' > printed-names.txt
 
               if ! diff -u ${expectedNamesFile} printed-names.txt; then
                 echo "the printed theme names do not match the ${toString (builtins.length expectedNames)} names variants.nix computes" >&2
+                exit 1
+              fi
+
+              awk '/^All [0-9]+ KDE colour scheme names:$/,/^Build one directly:$/' listed.txt \
+                | grep -E '^  Gruvbox' | sort > printed-scheme-names.txt
+              sort ${expectedSchemeNamesFile} > expected-scheme-names.txt
+
+              if ! diff -u expected-scheme-names.txt printed-scheme-names.txt; then
+                echo "the printed colour scheme names do not match the ${toString (builtins.length expectedSchemeNames)} names variants.nix computes" >&2
                 exit 1
               fi
               touch $out
