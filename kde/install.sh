@@ -249,6 +249,15 @@ build_aurorae() {
     local border=0
     [[ "${frame}" == "outline" ]] && border=2
 
+    # The vertical metrics MUST sum to the height of the extracted titlebar
+    # art, which is 34px: TitleEdgeTop 5 + TitleHeight 24 + TitleEdgeBottom 5.
+    # These were originally copied from another theme's rc and summed to 36,
+    # and the 2px surplus showed up as a strip of wallpaper between the
+    # titlebar and the client area. Every static check passed with it: only
+    # looking at a rendered window caught it.
+    #
+    # ButtonWidth is 36 because that is the width of the extracted button
+    # cells; a smaller value scales the glyphs down.
     cat > "${out}/${id}rc" <<EOF
 [General]
 TitleAlignment=Center
@@ -263,14 +272,14 @@ Animation=1
 BorderLeft=${border}
 BorderRight=${border}
 BorderBottom=${border}
-TitleEdgeTop=6
-TitleEdgeBottom=6
+TitleEdgeTop=5
+TitleEdgeBottom=5
 TitleEdgeLeft=16
 TitleEdgeRight=16
 TitleBorderLeft=12
 TitleBorderRight=12
 TitleHeight=24
-ButtonWidth=22
+ButtonWidth=36
 EOF
 
     cat > "${out}/metadata.json" <<EOF
