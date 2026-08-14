@@ -61,7 +61,11 @@ stdenvNoCC.mkDerivation {
 
     patchShebangs kde/install.sh
 
-    kde/install.sh \
+    # --colors is required, not decorative. -d moves BOTH the colour-scheme
+    # and the Aurorae destination, and passing neither flag means "install
+    # both", so without this the Aurorae themes are written as directories
+    # into share/color-schemes alongside the .colors files.
+    kde/install.sh --colors \
       -d "$out/share/color-schemes" \
       -n ${lib.escapeShellArg themeName} \
       -t ${lib.escapeShellArgs themeVariants} \
