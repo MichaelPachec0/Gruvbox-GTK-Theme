@@ -247,30 +247,57 @@
             '';
 
           kde-colors-well-formed = pkgs.runCommand "check-kde-colors-well-formed" { } ''
-            f=${kdeSchemes}/share/color-schemes/Gruvbox-Dark-Hard.colors
-            test -s "$f"
+            # BOTH variants, and the light one is not optional. $text is
+            # already opaque for a dark background, so a missing flatten()
+            # produces byte-identical output in the Dark file and the alpha
+            # leak is invisible there. It appears only in Light, where $text
+            # is rgba(29,32,33,0.87). Checking Dark alone made this check
+            # unable to fail for the defect it exists to catch.
+            for f in ${kdeSchemes}/share/color-schemes/Gruvbox-Dark-Hard.colors \
+                     ${kdeSchemes}/share/color-schemes/Gruvbox-Light-Hard.colors; do
+              test -s "$f"
 
-            count=$(grep -c '^\[' "$f")
-            if [ "$count" != 13 ]; then
-              echo "expected 13 INI sections, found $count" >&2
-              exit 1
-            fi
+              count=$(grep -c '^\[' "$f")
+              if [ "$count" != 13 ]; then
+                echo "$f: expected 13 INI sections, found $count" >&2
+                exit 1
+              fi
 
-            # The check that catches an un-flattened alpha value.
-            if grep -nE 'rgba|#[0-9a-fA-F]{3}' "$f"; then
-              echo "a colour leaked through unflattened or as hex" >&2
-              exit 1
-            fi
+              # The check that catches an un-flattened alpha value.
+              if grep -nE 'rgba|#[0-9a-fA-F]{3}' "$f"; then
+                echo "$f: a colour leaked through unflattened or as hex" >&2
+                exit 1
+              fi
 
-            # Every colour value is an opaque triple with components <= 255.
-            grep -oE '^[A-Za-z]+=[0-9]+,[0-9]+,[0-9]+$' "$f" |
-              sed 's/.*=//' | tr ',' '\n' |
-              while read -r n; do
-                if [ "$n" -gt 255 ]; then
-                  echo "colour component out of range: $n" >&2
-                  exit 1
-                fi
-              done
+              # Every colour value is an opaque triple with components <= 255.
+              grep -oE '^[A-Za-z]+=[0-9]+,[0-9]+,[0-9]+$' "$f" |
+                sed 's/.*=//' | tr ',' '\n' |
+                while read -r n; do
+                  if [ "$n" -gt 255 ]; then
+                    echo "$f: colour component out of range: $n" >&2
+                    exit 1
+                  fi
+                done
+
+              # No key may repeat within a section. KDE resolves a duplicate
+              # last-wins, so a wrong first value would sit there silently.
+              # This shipped once already, in Colors:Selection.
+              if ${pkgs.gawk}/bin/awk '
+                /^\[/ { sec = $0; delete seen; next }
+                /=/   {
+                  split($0, kv, "=")
+                  if (kv[1] in seen) {
+                    print FILENAME ": duplicate key " kv[1] " in " sec > "/dev/stderr"
+                    bad = 1
+                  }
+                  seen[kv[1]] = 1
+                }
+                END { exit bad }
+              ' "$f"; then :; else
+                echo "$f: duplicate INI keys" >&2
+                exit 1
+              fi
+            done
             touch $out
           '';
 
