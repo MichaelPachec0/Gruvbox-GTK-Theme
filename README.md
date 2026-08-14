@@ -26,6 +26,72 @@ The `gnome-themes-extra` package supplies the GTK2 `adwaita` engine used by the
 GTK2 part of the theme; the rest of the GTK2 styling relies on the `pixmap`
 engine that ships with GTK2 itself, so no extra theme engine is needed.
 
+### Nix
+
+This repository is a flake. Build the theme, or the icon themes, directly:
+
+```sh
+nix build github:MichaelPachec0/Gruvbox-GTK-Theme#gruvbox-gtk-theme
+nix build github:MichaelPachec0/Gruvbox-GTK-Theme#gruvbox-icon-theme
+```
+
+To see every theme, color, size and tweak the flake accepts, along with the
+directory name each combination installs as:
+
+```sh
+nix run github:MichaelPachec0/Gruvbox-GTK-Theme#list-variants
+```
+
+To use it from your own flake, add it as an input; the examples below assume
+this input name:
+
+```nix
+inputs.gruvbox-gtk-theme.url = "github:MichaelPachec0/Gruvbox-GTK-Theme";
+```
+
+`overlays.default` adds `gruvbox-gtk-theme` and `gruvbox-icon-theme` to a
+package set, which is the supported way to bring the plain attribute name
+into scope for `.override`:
+
+```nix
+{
+  nixpkgs.overlays = [ inputs.gruvbox-gtk-theme.overlays.default ];
+}
+```
+
+With the overlay applied, pick variants with `.override`:
+
+```nix
+pkgs.gruvbox-gtk-theme.override {
+  themeVariants = [ "green" ];
+  colorVariants = [ "dark" ];
+  tweaks = [ "outline" ];
+}
+```
+
+With home-manager, import the flake's `homeManagerModules.default` and enable it:
+
+```nix
+{
+  imports = [ inputs.gruvbox-gtk-theme.homeManagerModules.default ];
+
+  programs.gruvbox-gtk-theme = {
+    enable = true;
+    themeVariants = [ "green" ];
+    colorVariants = [ "dark" ];
+    iconTheme.enable = true;
+  };
+}
+```
+
+The module installs `gnome-themes-extra` for you, since the GTK2 part of the
+theme loads its `adwaita` engine. Set `gnomeShellVersion` if you run a GNOME
+older than 48; the installer cannot detect your GNOME from inside the build
+sandbox and otherwise builds shell styles for the newest version it knows.
+
+`nix develop` opens a shell with `sassc` and `gnome-themes-extra` on `PATH`,
+for running `themes/install.sh` by hand while working on the SCSS.
+
 Here are some commands to install on some distributions.
 
 - On Fedora run:

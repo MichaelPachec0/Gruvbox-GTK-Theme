@@ -13,3 +13,11 @@ themes/src/main/gnome-shell/gnome-shell-Dark.css
 themes/src/main/cinnamon/cinnamon.css
 themes/src/main/cinnamon/cinnamon-Light.css
 themes/src/main/cinnamon/cinnamon-Dark.css
+
+# Documentation mirror: AFFiNE is the source of truth. Promote with git add -f.
+docs/
+.affine-sync.json
+
+# nix build output symlinks
+result
+result-*

@@ -104,8 +104,8 @@ install() {
     mkdir -p "${THEME_DIR}"
 
     # Index Theme File
-    echo "Type=X-GNOME-Metatheme" >>"${THEME_DIR}/index.theme"
     echo "[Desktop Entry]" >>"${THEME_DIR}/index.theme"
+    echo "Type=X-GNOME-Metatheme" >>"${THEME_DIR}/index.theme"
     echo "Name=${2}${3}${4}${5}${6}" >>"${THEME_DIR}/index.theme"
     echo "Comment=An Flat Gtk+ theme based on Elegant Design" >>"${THEME_DIR}/index.theme"
     echo "Encoding=UTF-8" >>"${THEME_DIR}/index.theme"
@@ -267,7 +267,7 @@ while [[ $# -gt 0 ]]; do
                         themes+=("${THEME_VARIANTS[4]}")
                         shift
                         ;;
-                    pruple)
+                    purple)
                         themes+=("${THEME_VARIANTS[5]}")
                         shift
                         ;;
