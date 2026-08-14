@@ -15,16 +15,73 @@
         gruvbox-icon-theme = pkgs.callPackage ./nix/icons.nix { };
         gruvbox-kde-color-schemes = pkgs.callPackage ./nix/kde-package.nix { };
         list-variants = pkgs.callPackage ./nix/list-variants.nix { };
+
+        # Building this RUNS the VM test; $out holds the screenshots it took.
+        # Kept out of `checks` on purpose: it builds and boots a full Plasma
+        # desktop, which is far too heavy for `nix flake check`.
+        vm-test = import ./nix/vm-test.nix {
+          inherit pkgs self;
+          system = pkgs.stdenv.hostPlatform.system;
+        };
+
         default = gruvbox-gtk-theme;
       });
 
-      apps = forAllSystems (pkgs: {
-        list-variants = {
-          type = "app";
-          program = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.list-variants;
-          meta.description = "List the theme, color, size and tweak options this flake accepts";
-        };
-      });
+      apps = forAllSystems (pkgs:
+        let
+          system = pkgs.stdenv.hostPlatform.system;
+        in
+        {
+          list-variants = {
+            type = "app";
+            program = lib.getExe self.packages.${system}.list-variants;
+            meta.description = "List the theme, color, size and tweak options this flake accepts";
+          };
+
+          # Runs the same test outside the build sandbox, which is the only
+          # way it can reach the host GPU: `nix build` hides /dev/dri, so a
+          # sandboxed run is always llvmpipe no matter what the host has.
+          vm-test-gpu =
+            let
+              driver = (import ./nix/vm-test.nix {
+                inherit pkgs self system;
+                gpu = true;
+              }).driver;
+            in
+            {
+              type = "app";
+              # The driver writes screenshots to $out, falling back to the
+              # working directory, which drops PNGs into the repository root.
+              # Point it at a directory of its own instead.
+              program = lib.getExe (pkgs.writeShellApplication {
+                name = "vm-test-gpu";
+                text = ''
+                  shots=''${VM_TEST_OUT:-$PWD/vm-test-screenshots}
+                  mkdir -p "$shots"
+                  echo "screenshots will be written to $shots"
+                  # The driver takes an explicit flag for this. Setting $out
+                  # does nothing: out_dir comes from --output_directory,
+                  # which defaults to the working directory, which is how
+                  # PNGs ended up in the repository root.
+                  exec ${driver}/bin/nixos-test-driver \
+                    --output_directory "$shots" "$@"
+                '';
+              });
+              meta.description = "Run the Plasma VM test on the host GPU (virtio-gpu-gl)";
+            };
+
+          # Boots the same VM but hands you the driver's Python REPL, so you
+          # can drive the session by hand. Start it with `start_all()`, then
+          # use machine.screenshot("name") and machine.succeed(...).
+          vm-test-interactive = {
+            type = "app";
+            program = "${(import ./nix/vm-test.nix {
+              inherit pkgs self system;
+              gpu = true;
+            }).driverInteractive}/bin/nixos-test-driver";
+            meta.description = "Boot the Plasma VM on the GPU and drive it interactively";
+          };
+        });
 
       overlays.default = import ./nix/overlay.nix;
 

@@ -24,3 +24,6 @@ result-*
 
 # Scratch space for plan execution: ledgers, briefs, review packages
 .superpowers/
+
+# VM test screenshots
+vm-test-screenshots/
