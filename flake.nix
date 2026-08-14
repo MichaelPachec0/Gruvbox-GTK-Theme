@@ -49,6 +49,13 @@
           icons = self.packages.${pkgs.stdenv.hostPlatform.system}.gruvbox-icon-theme;
           lister = self.packages.${pkgs.stdenv.hostPlatform.system}.list-variants;
 
+          kdeSchemes = self.packages.${pkgs.stdenv.hostPlatform.system}.gruvbox-kde-color-schemes;
+          kdeAll = kdeSchemes.override {
+            themeVariants = variants.themes;
+            colorVariants = variants.colors;
+            contrastVariants = variants.contrasts;
+          };
+
           # What list-variants is expected to print, derived from the same file
           # it reads. Each value is tied to the row it belongs on rather than
           # searched for anywhere in the output: the prose below those rows
@@ -238,6 +245,83 @@
               grep -qF "Gruvbox-Light" "$failingMessagesPath"
               touch $out
             '';
+
+          kde-colors-well-formed = pkgs.runCommand "check-kde-colors-well-formed" { } ''
+            f=${kdeSchemes}/share/color-schemes/Gruvbox-Dark-Hard.colors
+            test -s "$f"
+
+            count=$(grep -c '^\[' "$f")
+            if [ "$count" != 13 ]; then
+              echo "expected 13 INI sections, found $count" >&2
+              exit 1
+            fi
+
+            # The check that catches an un-flattened alpha value.
+            if grep -nE 'rgba|#[0-9a-fA-F]{3}' "$f"; then
+              echo "a colour leaked through unflattened or as hex" >&2
+              exit 1
+            fi
+
+            # Every colour value is an opaque triple with components <= 255.
+            grep -oE '^[A-Za-z]+=[0-9]+,[0-9]+,[0-9]+$' "$f" |
+              sed 's/.*=//' | tr ',' '\n' |
+              while read -r n; do
+                if [ "$n" -gt 255 ]; then
+                  echo "colour component out of range: $n" >&2
+                  exit 1
+                fi
+              done
+            touch $out
+          '';
+
+          # The only test that fails if the mapping drifts from the GTK theme.
+          kde-colors-match-gtk = pkgs.runCommand "check-kde-colors-match-gtk" { } ''
+            gtk=$(grep -m1 '@define-color theme_bg_color' \
+              ${theme}/share/themes/Gruvbox-Dark/gtk-3.0/gtk.css |
+              grep -oE '#[0-9a-fA-F]{6}')
+            kde=$(sed -n '/^\[Colors:Window\]/,/^\[/p' \
+              ${kdeSchemes}/share/color-schemes/Gruvbox-Dark-Hard.colors |
+              grep -m1 '^BackgroundNormal=' | cut -d= -f2)
+
+            r=$(printf '%d' "0x''${gtk:1:2}")
+            g=$(printf '%d' "0x''${gtk:3:2}")
+            b=$(printf '%d' "0x''${gtk:5:2}")
+
+            if [ "$kde" != "$r,$g,$b" ]; then
+              echo "KDE window background $kde does not match GTK $gtk ($r,$g,$b)" >&2
+              exit 1
+            fi
+            echo "KDE and GTK agree on $gtk"
+            touch $out
+          '';
+
+          kde-colors-matrix-distinct = pkgs.runCommand "check-kde-colors-matrix-distinct" { } ''
+            dir=${kdeAll}/share/color-schemes
+            files=$(ls "$dir" | wc -l)
+            if [ "$files" != 90 ]; then
+              echo "expected 90 colour schemes, found $files" >&2
+              exit 1
+            fi
+
+            # Bijective: no two names share a palette, none is orphaned.
+            uniq=$(md5sum "$dir"/*.colors | awk '{print $1}' | sort -u | wc -l)
+            if [ "$uniq" != 90 ]; then
+              echo "90 names cover only $uniq distinct palettes" >&2
+              exit 1
+            fi
+            touch $out
+          '';
+
+          kde-colors-contrast-vocabulary = pkgs.runCommand "check-kde-colors-contrast-vocabulary" { } ''
+            dir=${kdeAll}/share/color-schemes
+            for word in Hard Medium Soft Black; do
+              if ! ls "$dir" | grep -q -- "-$word"; then
+                echo "no generated scheme carries the $word contrast" >&2
+                exit 1
+              fi
+            done
+            touch $out
+          '';
         });
     };
 }
