@@ -19,7 +19,12 @@ UNINSTALL="false"
 
 ACCENTS=(default green grey orange pink purple red teal yellow)
 COLORS=(light dark)
-CONTRASTS=(hard medium soft black)
+# The contrast states, named exactly as they appear in the scheme name.
+# Blackness is not a separate axis on the command line, because it combines
+# with the palette rather than replacing it: medium+black is a real, distinct
+# colour set for the light variant. `black` is a short alias for `hard-black`,
+# hard being the default palette.
+CONTRASTS=(hard medium soft hard-black medium-black soft-black black)
 
 accents=()
 colors=()
@@ -36,10 +41,13 @@ Usage: kde/install.sh [OPTIONS...]
                       default green grey orange pink purple red teal yellow
                       (default: default)
   -c, --color VARIANT light|dark (default: both)
-      --contrast V    hard|medium|soft|black (default: hard)
-                      hard is this repo's default palette; black is the
-                      near-black background and supersedes the other three
-                      for the dark variant.
+      --contrast V    hard|medium|soft|hard-black|medium-black|soft-black
+                      (default: hard). `black` is accepted as a short alias
+                      for hard-black.
+                      hard is this repo's default palette. The -black states
+                      combine blackness with that palette; for the dark
+                      variant blackness replaces the background outright, so
+                      all three collapse to one scheme named -Black.
   -r, --remove        Uninstall the schemes this would install
   -h, --help          Show this help
 EOF
@@ -55,41 +63,73 @@ contains() {
     return 1
 }
 
-# Gruvbox-Green-Dark-Soft. The contrast word is always present, except that
-# dark+black drops it: blackness replaces the background outright, so the
-# three contrast palettes collapse to one colour set and three names would
-# imply a choice that does not exist.
+# The palette a contrast state is built on. `black` is short for `hard-black`.
+contrast_base() {
+    case "$1" in
+        black|hard-black) printf 'hard' ;;
+        medium-black)     printf 'medium' ;;
+        soft-black)       printf 'soft' ;;
+        *)                printf '%s' "$1" ;;
+    esac
+}
+
+# Whether a contrast state turns blackness on.
+contrast_is_black() {
+    case "$1" in
+        black|hard-black|medium-black|soft-black) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+cap() {
+    printf '%s%s' "$(tr '[:lower:]' '[:upper:]' <<<"${1:0:1}")" "${1:1}"
+}
+
+# Gruvbox-Green-Dark-Soft, Gruvbox-Light-Medium-Black, Gruvbox-Dark-Black.
+# The contrast word is always present, except that dark+black drops it:
+# blackness replaces the background outright for the dark variant, so all
+# three palettes collapse to one colour set and three names would imply a
+# choice that does not exist. For light they stay distinct.
 scheme_name() {
     local accent="$1" color="$2" contrast="$3"
+    local base
+    base="$(contrast_base "${contrast}")"
     local out="${THEME_NAME}"
-    [[ "${accent}" != "default" ]] && out+="-$(tr '[:lower:]' '[:upper:]' <<<"${accent:0:1}")${accent:1}"
-    out+="-$(tr '[:lower:]' '[:upper:]' <<<"${color:0:1}")${color:1}"
-    if [[ "${color}" == "dark" && "${contrast}" == "black" ]]; then
-        out+="-Black"
-    elif [[ "${contrast}" == "black" ]]; then
-        out+="-Hard-Black"
+    if [[ "${accent}" != "default" ]]; then
+        out+="-$(cap "${accent}")"
+    fi
+    out+="-$(cap "${color}")"
+    if contrast_is_black "${contrast}"; then
+        if [[ "${color}" == "dark" ]]; then
+            out+="-Black"
+        else
+            out+="-$(cap "${base}")-Black"
+        fi
     else
-        out+="-$(tr '[:lower:]' '[:upper:]' <<<"${contrast:0:1}")${contrast:1}"
+        out+="-$(cap "${base}")"
     fi
     printf '%s' "${out}"
 }
 
 # Writes _tweaks-temp.scss for one combination. The file is tracked, so
 # restore_tweaks must run before the script exits.
+# The palette and blackness are set independently, because they combine.
 write_tweaks() {
     local accent="$1" contrast="$2"
+    local base
+    base="$(contrast_base "${contrast}")"
     cp -f "${SRC_DIR}/sass/_tweaks.scss" "${SRC_DIR}/sass/_tweaks-temp.scss"
-    case "${contrast}" in
+    case "${base}" in
         soft|medium)
-            sed -i "/@import/s/color-palette-default/color-palette-${contrast}/" \
+            sed -i "/@import/s/color-palette-default/color-palette-${base}/" \
                 "${SRC_DIR}/sass/_tweaks-temp.scss"
-            sed -i "/\$colorscheme:/s/default/${contrast}/" \
+            sed -i "/\$colorscheme:/s/default/${base}/" \
                 "${SRC_DIR}/sass/_tweaks-temp.scss"
-            ;;
-        black)
-            sed -i "/\$blackness:/s/false/true/" "${SRC_DIR}/sass/_tweaks-temp.scss"
             ;;
     esac
+    if contrast_is_black "${contrast}"; then
+        sed -i "/\$blackness:/s/false/true/" "${SRC_DIR}/sass/_tweaks-temp.scss"
+    fi
     if [[ "${accent}" != "default" ]]; then
         sed -i "/\$theme:/s/default/${accent}/" "${SRC_DIR}/sass/_tweaks-temp.scss"
     fi
