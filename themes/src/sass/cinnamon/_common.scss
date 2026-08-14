@@ -87,7 +87,6 @@ stage {
 	&:hover {
 		@include button(hover);
 		border-radius: $corner-radius;
-		color: $primary;
 	}
 	&:hover:focus {
 		@include button(focus-hover);
@@ -119,7 +118,6 @@ stage {
 	&:insensitive {
 		@include button(flat-insensitive);
 		border-radius: $corner-radius;
-		color: $error;
 	}
 }
 
@@ -1374,17 +1372,21 @@ $sub_menu_bg: mix($text, $popover, 10%);
 	.dialog-button {
 		@extend %button;
 
+		// :default is the button the Return key activates (dialog.js:160),
+		// which is the affirmative action, not the dangerous one. Only
+		// :destructive-action gets the error colour.
 		&:default {
 			@extend %flat_button;
-			&:hover {
-				background-color: lighten($error, 8%) !important;
-				color: on($error) !important;
-			}
 		}
 		&:destructive-action {
 			@extend %flat_button;
 			background-color: $error;
 			color: on($error);
+
+			&:hover {
+				background-color: lighten($error, 8%);
+				color: on($error);
+			}
 		}
 	}
 
