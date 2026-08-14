@@ -49,8 +49,11 @@ BEGIN {
     val = substr(line, idx + 1)
     sub(/^[ \t]+/, "", val)
     sub(/[ \t]+$/, "", val)
-    # sassc emits "29, 32, 33"; KDE wants "29,32,33".
-    gsub(/,[ \t]+/, ",", val)
+    # sassc emits "29, 32, 33"; KDE wants "29,32,33". Restricted to numeric
+    # lists so a free-text value such as Name is never silently rewritten.
+    if (val ~ /^[0-9, \t]+$/) {
+        gsub(/,[ \t]+/, ",", val)
+    }
     print key "=" val
     next
 }

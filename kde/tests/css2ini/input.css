@@ -16,3 +16,7 @@ General {
 KDE {
   contrast: 4;
 }
+
+Colors-Tooltip {
+  BackgroundNormal: 36, 34, 32;
+}
