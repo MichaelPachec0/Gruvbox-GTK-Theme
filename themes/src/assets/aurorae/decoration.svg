@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="140.75" height="34" viewBox="0 0 140.75 34">
+  <defs>
+    <style id="current-color-scheme" type="text/css">
+      .ColorScheme-Background { color: #1d2021; }
+      .ColorScheme-Text       { color: #fbf1c7; }
+      .ColorScheme-Highlight  { color: #7daea3; }
+    </style>
+  </defs>
+  <g id="decoration-topleft" transform="translate(0,0)">
+  <g
+     transform="translate(-384,-657.36214)"
+     id="layer1">
+    <g
+       id="top-left-active"
+       transform="translate(396,-66.999986)">
+      <g
+         id="g1732"
+         transform="translate(-3)">
+        <path
+           id="path1725"
+           class="ColorScheme-Background" style="opacity:1;fill:currentColor;fill-opacity:1;stroke-width:7.36944;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+           d="m 396,93 v 1 h -2 v 1 h -1 v 1 h -1 v 1 h -1 v 1 h -1 v 2 h -1 v 27 h 1 1 10 V 95 94 93 Z"
+           transform="translate(-398,631.36214)" />
+      </g>
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke-width:17.8885;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="rect1906"
+         width="5"
+         height="1"
+         x="-5"
+         y="724.36212"
+         rx="0"
+         ry="0" />
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke-width:11.3137;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="rect5898"
+         width="2"
+         height="1"
+         x="-8"
+         y="726.36212"
+         rx="0"
+         ry="0" />
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="rect5900"
+         width="1"
+         height="1"
+         x="-9"
+         y="727.36212"
+         rx="0"
+         ry="0" />
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="rect5902"
+         width="1"
+         height="1"
+         x="-10"
+         y="728.36212"
+         rx="0"
+         ry="0" />
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke-width:11.3137;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="rect5904"
+         width="1"
+         height="2"
+         x="-11"
+         y="729.36212"
+         rx="0"
+         ry="0" />
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke-width:42.332;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="rect5912"
+         width="1"
+         height="27.000015"
+         x="-12"
+         y="731.36212"
+         rx="0"
+         ry="0" />
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke-width:11.3137;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="rect526"
+         width="2"
+         height="1"
+         x="-7"
+         y="725.36212"
+         rx="0"
+         ry="0" />
+    </g>
+  </g>
+  </g>
+  <g id="decoration-top" transform="translate(12,0)">
+  <g
+     transform="translate(-405.17647,-607.36215)"
+     id="layer1">
+    <g
+       id="title-3-active"
+       transform="matrix(0.1875,0,0,1,401.23897,22.000028)">
+      <rect
+         y="585.36212"
+         x="21"
+         height="34"
+         width="36"
+         id="rect1"
+         class="ColorScheme-Background" style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.34961;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.22474;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect2"
+         width="36"
+         height="1"
+         x="21"
+         y="585.36212" />
+    </g>
+  </g>
+  </g>
+  <g id="decoration-topright" transform="translate(18.75,0)">
+  <g
+     transform="translate(-412,-657.36214)"
+     id="layer1">
+    <g
+       id="top-right-active"
+       transform="matrix(-1,0,0,1,412,-66.999986)">
+      <g
+         id="g1"
+         transform="translate(-3)">
+        <path
+           id="path1"
+           class="ColorScheme-Background" style="opacity:1;fill:currentColor;fill-opacity:1;stroke-width:7.36944;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+           d="m 396,93 v 1 h -2 v 1 h -1 v 1 h -1 v 1 h -1 v 1 h -1 v 2 h -1 v 27 h 1 1 10 V 95 94 93 Z"
+           transform="translate(-398,631.36214)" />
+      </g>
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke-width:17.8885;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="rect1"
+         width="5"
+         height="1"
+         x="-5"
+         y="724.36212"
+         rx="0"
+         ry="0" />
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke-width:11.3137;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="rect2"
+         width="2"
+         height="1"
+         x="-8"
+         y="726.36212"
+         rx="0"
+         ry="0" />
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="rect3"
+         width="1"
+         height="1"
+         x="-9"
+         y="727.36212"
+         rx="0"
+         ry="0" />
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="rect4"
+         width="1"
+         height="1"
+         x="-10"
+         y="728.36212"
+         rx="0"
+         ry="0" />
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke-width:11.3137;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="rect5"
+         width="1"
+         height="2"
+         x="-11"
+         y="729.36212"
+         rx="0"
+         ry="0" />
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke-width:42.332;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="rect6"
+         width="1"
+         height="27.000015"
+         x="-12"
+         y="731.36212"
+         rx="0"
+         ry="0" />
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke-width:11.3137;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="rect7"
+         width="2"
+         height="1"
+         x="-7"
+         y="725.36212"
+         rx="0"
+         ry="0" />
+    </g>
+  </g>
+  </g>
+  <g id="decoration-left" transform="translate(30.75,0)">
+  <g
+     transform="translate(-443,-669.36216)"
+     id="layer1">
+    <g
+       id="left-active"
+       transform="translate(397,-64.999958)">
+      <rect
+         transform="scale(-1,1)"
+         y="734.36212"
+         x="-48"
+         height="16"
+         width="2"
+         id="rect4138-3"
+         class="ColorScheme-Background" style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect19191"
+         width="1"
+         height="16"
+         x="-47"
+         y="734.36212"
+         transform="scale(-1,1)" />
+    </g>
+  </g>
+  </g>
+  <g id="decoration-right" transform="translate(32.75,0)">
+  <g
+     transform="translate(-453,-669.36216)"
+     id="layer1">
+    <g
+       id="right-active"
+       transform="matrix(-1,0,0,1,501,-64.999958)">
+      <rect
+         transform="scale(-1,1)"
+         y="734.36212"
+         x="-48"
+         height="16"
+         width="2"
+         id="rect1460"
+         class="ColorScheme-Background" style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <rect
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect27600"
+         width="1"
+         height="16"
+         x="-47"
+         y="734.36212"
+         transform="scale(-1,1)" />
+    </g>
+  </g>
+  </g>
+  <g id="decoration-bottomleft" transform="translate(34.75,0)">
+  <g
+     transform="translate(-470,-663.36204)"
+     id="layer1">
+    <g
+       id="bottom-left-active"
+       transform="translate(374,-66.999986)">
+      <path
+         id="path1472"
+         d="m 98,730.36203 h -2 v 9.00012 h 1 v 1 l 9,-1.2e-4 v -2 l -8,1.2e-4 z"
+         class="ColorScheme-Background" style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.666667;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         id="path52127"
+         d="m 97,730.36214 -1,-1.1e-4 v 9.00012 h 1 v 1 l 9,-1.2e-4 v -0.99989 h -9 z"
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.666667;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+  </g>
+  </g>
+  <g id="decoration-bottom" transform="translate(44.75,0)">
+  <g
+     transform="translate(-481.99996,-671.36216)"
+     id="layer1">
+    <g
+       id="bottom-active"
+       transform="matrix(0,-1,-1,0,1232.3621,719.36216)">
+      <rect
+         transform="scale(-1,1)"
+         y="734.36212"
+         x="-48"
+         height="16"
+         width="2"
+         id="rect1501"
+         class="ColorScheme-Background" style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <rect
+         transform="scale(-1,1)"
+         y="734.36212"
+         x="-47.000011"
+         height="16.000021"
+         width="1.00001"
+         id="rect52131"
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+  </g>
+  </g>
+  <g id="decoration-bottomright" transform="translate(60.75,0)">
+  <g
+     transform="translate(-500,-663.36204)"
+     id="layer1">
+    <g
+       id="bottom-right-active"
+       transform="matrix(-1,0,0,1,606,-66.999986)">
+      <path
+         class="ColorScheme-Background" style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.666667;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         d="m 98,730.36203 h -2 v 9.00012 h 1 v 1 l 9,-1.2e-4 v -2 l -8,1.2e-4 z"
+         id="path1493" />
+      <path
+         class="ColorScheme-Text" style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.666667;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         d="m 97,730.36214 -1,-1.1e-4 v 9.00012 h 1 v 1 l 9,-1.2e-4 v -0.99989 h -9 z"
+         id="path52129" />
+    </g>
+  </g>
+  </g>
+  <g id="decoration-inactive-topleft" transform="translate(70.75,0)">
+  <g
+     transform="translate(-398,-657.36215)"
+     id="layer1">
+    <g
+       id="top-left-inactive"
+       transform="translate(410,-66.999986)">
+      <g
+         id="g8402"
+         transform="translate(-3)">
+        <path
+           id="path8400"
+           class="ColorScheme-Background" style="opacity:1;fill:currentColor;fill-opacity:1;stroke-width:7.36944;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+           d="m 410,93 v 1 h -2 v 1 h -1 v 1 h -1 v 1 h -1 v 1 h -1 v 2 h -1 v 27 h 1 1 10 V 95 94 93 Z"
+           transform="translate(-412,631.36214)" />
+      </g>
+    </g>
+  </g>
+  </g>
+  <g id="decoration-inactive-top" transform="translate(82.75,0)">
+  <g
+     transform="translate(-457.17647,-607.36209)"
+     id="layer1">
+    <g
+       id="title-3-inactive"
+       transform="matrix(0.1875,0,0,1,453.23897,22.000028)">
+      <rect
+         y="585.36206"
+         x="21"
+         height="34"
+         width="32"
+         id="rect3211"
+         class="ColorScheme-Background" style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.27242;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+  </g>
+  </g>
+  <g id="decoration-inactive-topright" transform="translate(88.75,0)">
+  <g
+     transform="translate(-426,-657.36215)"
+     id="layer1">
+    <g
+       id="top-right-inactive"
+       transform="matrix(-1,0,0,1,426,-66.999958)">
+      <g
+         id="g8510"
+         transform="translate(-3)">
+        <path
+           id="path8508"
+           class="ColorScheme-Background" style="opacity:1;fill:currentColor;fill-opacity:1;stroke-width:7.36944;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+           d="m 431,93 v 1 1 32 h 10 1 1 v -27 h -1 v -2 h -1 v -1 h -1 v -1 h -1 v -1 h -1 v -1 h -2 v -1 z"
+           transform="matrix(-1,0,0,1,434,631.36211)" />
+      </g>
+    </g>
+  </g>
+  </g>
+  <g id="decoration-inactive-left" transform="translate(100.75,0)">
+  <g
+     transform="translate(-448,-669.36216)"
+     id="layer1">
+    <g
+       transform="translate(402,-64.999958)"
+       id="left-inactive">
+      <rect
+         class="ColorScheme-Background" style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect1448"
+         width="2"
+         height="16"
+         x="-48"
+         y="734.36212"
+         transform="scale(-1,1)" />
+    </g>
+  </g>
+  </g>
+  <g id="decoration-inactive-right" transform="translate(102.75,0)">
+  <g
+     transform="translate(-458,-669.36216)"
+     id="layer1">
+    <g
+       transform="matrix(-1,0,0,1,506,-64.999958)"
+       id="right-inactive">
+      <rect
+         class="ColorScheme-Background" style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect1454"
+         width="2"
+         height="16"
+         x="-48"
+         y="734.36212"
+         transform="scale(-1,1)" />
+    </g>
+  </g>
+  </g>
+  <g id="decoration-inactive-bottomleft" transform="translate(104.75,0)">
+  <g
+     transform="translate(-470,-675.36204)"
+     id="layer1">
+    <g
+       id="bottom-left-inactive"
+       transform="translate(374,-54.999986)">
+      <path
+         class="ColorScheme-Background" style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.666667;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         d="m 98,730.36203 h -2 v 9.00012 h 1 v 1 l 9,-1.2e-4 v -2 l -8,1.2e-4 z"
+         id="path1475" />
+    </g>
+  </g>
+  </g>
+  <g id="decoration-inactive-bottom" transform="translate(114.75,0)">
+  <g
+     transform="translate(-481.99998,-683.36216)"
+     id="layer1">
+    <g
+       transform="matrix(0,-1,-1,0,1232.3621,731.36216)"
+       id="bottom-inactive">
+      <rect
+         class="ColorScheme-Background" style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect1507"
+         width="2"
+         height="16"
+         x="-48"
+         y="734.36212"
+         transform="scale(-1,1)" />
+    </g>
+  </g>
+  </g>
+  <g id="decoration-inactive-bottomright" transform="translate(130.75,0)">
+  <g
+     transform="translate(-500,-675.36204)"
+     id="layer1">
+    <g
+       transform="matrix(-1,0,0,1,606,-54.999986)"
+       id="bottom-right-inactive">
+      <path
+         id="path1485"
+         d="m 98,730.36203 h -2 v 9.00012 h 1 v 1 l 9,-1.2e-4 v -2 l -8,1.2e-4 z"
+         class="ColorScheme-Background" style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:0.666667;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+  </g>
+  </g>
+  <g id="decoration-center">
+    <rect x="0" y="0" width="1" height="1" fill="none"/>
+  </g>
+</svg>
