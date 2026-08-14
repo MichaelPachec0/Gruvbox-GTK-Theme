@@ -123,8 +123,33 @@ A colour scheme carries most of the visual result on KDE: Plasma resolves
 `ColorScheme-*` classes inside its own widget SVGs at render time, so the
 stock desktop theme restyles itself to match rather than needing replacement.
 
-Window decorations are not part of this package. Of the GTK theme's tweaks,
-`float` has no KDE equivalent at all.
+#### Window decorations (work in progress)
+
+> [!WARNING]
+> `gruvbox-kde-aurorae` is unfinished. It builds, installs and passes its
+> checks, and has been confirmed rendering in a Plasma VM, but it has not
+> been used on a real desktop for any length of time. Expect rough edges.
+
+`gruvbox-kde-aurorae` generates Aurorae window decorations. It is a separate
+package from the colour schemes because their variant axes do not overlap:
+colour schemes vary by accent, colour and contrast, while decorations vary by
+colour, frame and button style.
+
+```sh
+nix build github:MichaelPachec0/Gruvbox-GTK-Theme#gruvbox-kde-aurorae
+./kde/install.sh --aurorae -c dark --frame outline --buttons macos
+```
+
+The artwork is extracted from this repository's own xfwm4 masters rather than
+drawn: they already carry a nine-slice frame and per-state button glyphs under
+named ids. Regenerate it with
+`themes/src/assets/aurorae/make-aurorae.sh`, which needs Inkscape. The
+committed SVGs are the build input, so ordinary builds do not.
+
+Decorations have no contrast axis: the decoration follows whichever colour
+scheme is active, so one covers every contrast level. Of the GTK theme's
+tweaks, `outline` and `macos` carry over (`--frame outline` and
+`--buttons macos`); `float` has no KDE equivalent at all.
 
 Here are some commands to install on some distributions.
 
