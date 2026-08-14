@@ -92,6 +92,40 @@ sandbox and otherwise builds shell styles for the newest version it knows.
 `nix develop` opens a shell with `sassc` and `gnome-themes-extra` on `PATH`,
 for running `themes/install.sh` by hand while working on the SCSS.
 
+### KDE
+
+`gruvbox-kde-color-schemes` generates `.colors` files for System Settings'
+Colors page, from the same SCSS palette the GTK theme is built from.
+
+```sh
+nix build github:MichaelPachec0/Gruvbox-GTK-Theme#gruvbox-kde-color-schemes
+```
+
+The package *installs* schemes; it does not *select* one for you. After
+building, or linking the output into `~/.local/share/color-schemes`, pick the
+scheme from System Settings yourself, the same way you would for any manually
+installed one.
+
+Without Nix, `kde/install.sh` installs directly to
+`~/.local/share/color-schemes`:
+
+```sh
+./kde/install.sh -t green -c dark --contrast hard
+```
+
+The contrast vocabulary is `hard`, `medium`, `soft`, `hard-black`,
+`medium-black` and `soft-black`, with `black` accepted as a short alias for
+`hard-black`. `hard` is this repository's default palette; the `-black`
+states combine blackness with that palette rather than replacing it, so
+`medium-black` is a distinct colour set from both `medium` and `hard-black`.
+
+A colour scheme carries most of the visual result on KDE: Plasma resolves
+`ColorScheme-*` classes inside its own widget SVGs at render time, so the
+stock desktop theme restyles itself to match rather than needing replacement.
+
+Window decorations are not part of this package. Of the GTK theme's tweaks,
+`float` has no KDE equivalent at all.
+
 Here are some commands to install on some distributions.
 
 - On Fedora run:
