@@ -427,12 +427,7 @@ $sub_menu_bg: mix($text, $popover, 10%);
 		border-radius: $menu-radius;
 		background-color: $popover;
 
-		@if $outline == 'false' and $variant == 'dark' {
-			border: 1px solid highlight($popover);
-			background-clip: border-box;
-		} @else {
-			border: 2px solid $primary;
-		}
+		@include floating-border;
 	}
 
 	.popup-menu-item {
@@ -484,12 +479,7 @@ $sub_menu_bg: mix($text, $popover, 10%);
 
 	padding: $space-size;
 
-	@if $outline == 'false' and $variant == 'dark' {
-		border: 1px solid highlight($popover);
-		background-clip: border-box;
-	} @else {
-		border: 2px solid $primary;
-	}
+	@include floating-border;
 }
 
 // .popup-image-menu-item {}
@@ -1153,12 +1143,7 @@ $sub_menu_bg: mix($text, $popover, 10%);
 	box-shadow: 0 5px 12px rgba(black, 0.35);
 	margin: 7px 12px 17px 12px;
 
-	@if $outline == 'false' and $variant == 'dark' {
-		border: 1px solid highlight($popover);
-		background-clip: border-box;
-	} @else {
-		border: 2px solid $primary;
-	}
+	@include floating-border;
 
 	.notification-button,
 	.notification-icon-button {
@@ -1357,12 +1342,7 @@ $sub_menu_bg: mix($text, $popover, 10%);
 	padding: $space-size;
 	border-radius: $corner-radius;
 
-	@if $outline == 'false' and $variant == 'dark' {
-		border: 1px solid highlight($popover);
-		background-clip: border-box;
-	} @else {
-		border: 2px solid $primary;
-	}
+	@include floating-border;
 
 	> StBoxLayout:first-child {
 		padding: 20px 10px 10px 10px;
@@ -1495,12 +1475,7 @@ $sub_menu_bg: mix($text, $popover, 10%);
 // password or authentication dialog
 
 .prompt-dialog {
-	@if $outline == 'false' and $variant == 'dark' {
-		border: 1px solid highlight($popover);
-		background-clip: border-box;
-	} @else {
-		border: 2px solid $primary;
-	}
+	@include floating-border;
 
 	width: 26em;
 
@@ -2001,12 +1976,7 @@ $ws_dot_inactive: $ws_indicator_height / 6;
 	background-color: transparentize($background, 0.01);
 	/* border: 1px solid transparentize($divider, 0.01); */
 
-	@if $outline == 'false' and $variant == 'dark' {
-		border: 1px solid highlight($popover);
-		background-clip: border-box;
-	} @else {
-		border: 2px solid $primary;
-	}
+	@include floating-border;
 
 	border-radius: $modal-radius;
 	text-align: center;
@@ -2200,15 +2170,9 @@ $ws_dot_inactive: $ws_indicator_height / 6;
 		margin: $space-size;
 		background-color: $popover;
 		border-radius: $menu-radius;
-		background-clip: border-box;
 		box-shadow: 0 5px 12px rgba(black, 0.35);
 
-		@if $outline == 'false' and $variant == 'dark' {
-			border: 1px solid highlight($popover);
-			background-clip: border-box;
-		} @else {
-			border: 2px solid $primary;
-		}
+		@include floating-border;
 
 		.item-box {
 			padding: $space-size;
