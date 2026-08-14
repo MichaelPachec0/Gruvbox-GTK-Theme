@@ -17,10 +17,14 @@ $kde-button-bg: flatten($button, $background);
 $kde-tooltip-bg: flatten($tooltip, $background);
 $kde-selection-bg-alt: mix($primary, $background, 40%);
 
-@mixin kde-foregrounds($bg) {
-	ForegroundNormal: triple($text, $bg);
+// $normal and $active are parameters rather than fixed, because
+// Colors-Selection needs different values for them and emitting the key twice
+// would leave correctness resting on KDE resolving duplicate INI keys
+// last-wins.
+@mixin kde-foregrounds($bg, $normal: $text, $active: $primary) {
+	ForegroundNormal: triple($normal, $bg);
 	ForegroundInactive: triple($text-secondary, $bg);
-	ForegroundActive: triple($primary, $bg);
+	ForegroundActive: triple($active, $bg);
 	ForegroundLink: triple($link, $bg);
 	ForegroundVisited: triple($link-visited, $bg);
 	ForegroundNegative: triple($error, $bg);
@@ -65,13 +69,13 @@ Colors-Complementary {
 }
 
 // Selection paints text on the accent, so its normal and active foregrounds
-// are the accent's own contrast colour rather than the window text.
+// are the accent's own contrast colour rather than the window text. They are
+// passed into the mixin rather than overridden after it, so each key is
+// emitted exactly once.
 Colors-Selection {
 	BackgroundNormal: rgbtriple($primary);
 	BackgroundAlternate: rgbtriple($kde-selection-bg-alt);
-	@include kde-foregrounds($primary);
-	ForegroundNormal: triple(on($primary), $primary);
-	ForegroundActive: triple(on($primary), $primary);
+	@include kde-foregrounds($primary, on($primary), on($primary));
 }
 
 // Behavioural parameters, not palette. Values match Breeze 6.7.4 so KDE's
