@@ -14,6 +14,13 @@ let
     contrastVariants = cfg.kdeColorSchemes.contrastVariants;
   };
 
+  # Read from variants.nix rather than repeating the list. A hardcoded copy
+  # here went stale once already: it still held the four-value vocabulary
+  # after the contrast axis was corrected, which both rejected the valid
+  # medium-black and soft-black and accepted the CLI-only `black` alias that
+  # kde-package.nix then refused with a raw assertOneOf trace.
+  kdeContrasts = (import "${self}/nix/variants.nix" lib).contrasts;
+
   themeNames = cfg.package.themeNames or [ ];
   iconThemeNames = cfg.iconTheme.package.iconThemeNames or [ ];
 
@@ -126,7 +133,11 @@ in
       contrastVariants = lib.mkOption {
         type = lib.types.listOf lib.types.str;
         default = [ "hard" ];
-        description = "Contrast variants: hard medium soft black.";
+        description =
+          "Contrast variants: "
+          + lib.concatStringsSep " " kdeContrasts
+          + ". Blackness combines with the palette, so medium-black is a "
+          + "distinct scheme from both medium and hard-black.";
       };
     };
   };
@@ -161,11 +172,17 @@ in
         message = "programs.gruvbox-gtk-theme.iconThemeName is ${toString cfg.iconThemeName}, which this package does not ship. It ships: ${lib.concatStringsSep ", " iconThemeNames}.";
       }
       {
+        # Read from variants.nix rather than repeating the list. A hardcoded
+        # copy here went stale once already: it still held the four-value
+        # vocabulary after the contrast axis was corrected, which both
+        # rejected the valid medium-black and soft-black and accepted the
+        # CLI-only `black` alias that kde-package.nix then refused with a raw
+        # assertOneOf trace.
         assertion = !cfg.kdeColorSchemes.enable
-          || lib.all (c: lib.elem c [ "hard" "medium" "soft" "black" ])
-          cfg.kdeColorSchemes.contrastVariants;
+          || lib.all (c: lib.elem c kdeContrasts) cfg.kdeColorSchemes.contrastVariants;
         message = "programs.gruvbox-gtk-theme.kdeColorSchemes.contrastVariants "
-          + "accepts only: hard medium soft black";
+          + "accepts only: "
+          + lib.concatStringsSep " " kdeContrasts;
       }
     ];
 
