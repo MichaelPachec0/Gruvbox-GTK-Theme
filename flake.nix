@@ -13,17 +13,75 @@
       packages = forAllSystems (pkgs: rec {
         gruvbox-gtk-theme = pkgs.callPackage ./nix/package.nix { };
         gruvbox-icon-theme = pkgs.callPackage ./nix/icons.nix { };
+        gruvbox-kde-color-schemes = pkgs.callPackage ./nix/kde-package.nix { };
         list-variants = pkgs.callPackage ./nix/list-variants.nix { };
+
+        # Building this RUNS the VM test; $out holds the screenshots it took.
+        # Kept out of `checks` on purpose: it builds and boots a full Plasma
+        # desktop, which is far too heavy for `nix flake check`.
+        vm-test = import ./nix/vm-test.nix {
+          inherit pkgs self;
+          system = pkgs.stdenv.hostPlatform.system;
+        };
+
         default = gruvbox-gtk-theme;
       });
 
-      apps = forAllSystems (pkgs: {
-        list-variants = {
-          type = "app";
-          program = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.list-variants;
-          meta.description = "List the theme, color, size and tweak options this flake accepts";
-        };
-      });
+      apps = forAllSystems (pkgs:
+        let
+          system = pkgs.stdenv.hostPlatform.system;
+        in
+        {
+          list-variants = {
+            type = "app";
+            program = lib.getExe self.packages.${system}.list-variants;
+            meta.description = "List the theme, color, size and tweak options this flake accepts";
+          };
+
+          # Runs the same test outside the build sandbox, which is the only
+          # way it can reach the host GPU: `nix build` hides /dev/dri, so a
+          # sandboxed run is always llvmpipe no matter what the host has.
+          vm-test-gpu =
+            let
+              driver = (import ./nix/vm-test.nix {
+                inherit pkgs self system;
+                gpu = true;
+              }).driver;
+            in
+            {
+              type = "app";
+              # The driver writes screenshots to $out, falling back to the
+              # working directory, which drops PNGs into the repository root.
+              # Point it at a directory of its own instead.
+              program = lib.getExe (pkgs.writeShellApplication {
+                name = "vm-test-gpu";
+                text = ''
+                  shots=''${VM_TEST_OUT:-$PWD/vm-test-screenshots}
+                  mkdir -p "$shots"
+                  echo "screenshots will be written to $shots"
+                  # The driver takes an explicit flag for this. Setting $out
+                  # does nothing: out_dir comes from --output_directory,
+                  # which defaults to the working directory, which is how
+                  # PNGs ended up in the repository root.
+                  exec ${driver}/bin/nixos-test-driver \
+                    --output_directory "$shots" "$@"
+                '';
+              });
+              meta.description = "Run the Plasma VM test on the host GPU (virtio-gpu-gl)";
+            };
+
+          # Boots the same VM but hands you the driver's Python REPL, so you
+          # can drive the session by hand. Start it with `start_all()`, then
+          # use machine.screenshot("name") and machine.succeed(...).
+          vm-test-interactive = {
+            type = "app";
+            program = "${(import ./nix/vm-test.nix {
+              inherit pkgs self system;
+              gpu = true;
+            }).driverInteractive}/bin/nixos-test-driver";
+            meta.description = "Boot the Plasma VM on the GPU and drive it interactively";
+          };
+        });
 
       overlays.default = import ./nix/overlay.nix;
 
@@ -48,6 +106,13 @@
           icons = self.packages.${pkgs.stdenv.hostPlatform.system}.gruvbox-icon-theme;
           lister = self.packages.${pkgs.stdenv.hostPlatform.system}.list-variants;
 
+          kdeSchemes = self.packages.${pkgs.stdenv.hostPlatform.system}.gruvbox-kde-color-schemes;
+          kdeAll = kdeSchemes.override {
+            themeVariants = variants.themes;
+            colorVariants = variants.colors;
+            contrastVariants = variants.contrasts;
+          };
+
           # What list-variants is expected to print, derived from the same file
           # it reads. Each value is tied to the row it belongs on rather than
           # searched for anywhere in the output: the prose below those rows
@@ -59,6 +124,7 @@
             { label = "colors (-c)"; words = variants.colors; }
             { label = "sizes (-s)"; words = variants.sizes; }
             { label = "tweaks"; words = variants.tweaks; }
+            { label = "contrasts (--contrast)"; words = variants.contrasts; }
           ];
 
           # The complete enumeration, compared line for line rather than
@@ -66,6 +132,10 @@
           expectedNames = variants.allThemeDirNames "Gruvbox";
           expectedNamesFile = pkgs.writeText "expected-theme-names"
             (lib.concatMapStringsSep "\n" (n: "  ${n}") expectedNames + "\n");
+
+          expectedSchemeNames = variants.allColorSchemeNames "Gruvbox";
+          expectedSchemeNamesFile = pkgs.writeText "expected-scheme-names"
+            (lib.concatMapStringsSep "\n" (n: "  ${n}") expectedSchemeNames + "\n");
 
           # Declares only the home-manager options the module writes to.
           # evalModules refuses assignments to undeclared options, so the
@@ -121,11 +191,29 @@
                 (r: "row_has ${lib.escapeShellArgs ([ r.label ] ++ r.words)}")
                 expectedRows}
 
-              # Every line that is an installable name, in printed order.
-              grep -E '^  Gruvbox' listed.txt > printed-names.txt
+              # Theme directory names and colour scheme names live in disjoint
+              # sections of the printed output, headed by "All N installable
+              # theme names" and "All N KDE colour scheme names:"
+              # respectively. Scoping each grep to its own section by header
+              # is required, not cosmetic: a theme directory name and a
+              # colour scheme name can be the exact same string (for example
+              # Gruvbox-Light-Soft names both a GTK theme directory and a KDE
+              # colour scheme), so a suffix-based split cannot tell them
+              # apart, but the section they print in always can.
+              awk '/^All [0-9]+ installable theme names$/,/^All [0-9]+ KDE colour scheme names:$/' listed.txt \
+                | grep -E '^  Gruvbox' > printed-names.txt
 
               if ! diff -u ${expectedNamesFile} printed-names.txt; then
                 echo "the printed theme names do not match the ${toString (builtins.length expectedNames)} names variants.nix computes" >&2
+                exit 1
+              fi
+
+              awk '/^All [0-9]+ KDE colour scheme names:$/,/^Build one directly:$/' listed.txt \
+                | grep -E '^  Gruvbox' | sort > printed-scheme-names.txt
+              sort ${expectedSchemeNamesFile} > expected-scheme-names.txt
+
+              if ! diff -u expected-scheme-names.txt printed-scheme-names.txt; then
+                echo "the printed colour scheme names do not match the ${toString (builtins.length expectedSchemeNames)} names variants.nix computes" >&2
                 exit 1
               fi
               touch $out
@@ -214,6 +302,133 @@
               grep -qF "Gruvbox-Light" "$failingMessagesPath"
               touch $out
             '';
+
+          kde-colors-well-formed = pkgs.runCommand "check-kde-colors-well-formed" { } ''
+            # BOTH variants, and the light one is not optional. $text is
+            # already opaque for a dark background, so a missing flatten()
+            # produces byte-identical output in the Dark file and the alpha
+            # leak is invisible there. It appears only in Light, where $text
+            # is rgba(29,32,33,0.87). Checking Dark alone made this check
+            # unable to fail for the defect it exists to catch.
+            for f in ${kdeSchemes}/share/color-schemes/Gruvbox-Dark-Hard.colors \
+                     ${kdeSchemes}/share/color-schemes/Gruvbox-Light-Hard.colors; do
+              test -s "$f"
+
+              count=$(grep -c '^\[' "$f")
+              if [ "$count" != 13 ]; then
+                echo "$f: expected 13 INI sections, found $count" >&2
+                exit 1
+              fi
+
+              # The check that catches an un-flattened alpha value.
+              if grep -nE 'rgba|#[0-9a-fA-F]{3}' "$f"; then
+                echo "$f: a colour leaked through unflattened or as hex" >&2
+                exit 1
+              fi
+
+              # Every colour value is an opaque triple with components <= 255.
+              grep -oE '^[A-Za-z]+=[0-9]+,[0-9]+,[0-9]+$' "$f" |
+                sed 's/.*=//' | tr ',' '\n' |
+                while read -r n; do
+                  if [ "$n" -gt 255 ]; then
+                    echo "$f: colour component out of range: $n" >&2
+                    exit 1
+                  fi
+                done
+
+              # No key may repeat within a section. KDE resolves a duplicate
+              # last-wins, so a wrong first value would sit there silently.
+              # This shipped once already, in Colors:Selection.
+              if ${pkgs.gawk}/bin/awk '
+                /^\[/ { sec = $0; delete seen; next }
+                /=/   {
+                  split($0, kv, "=")
+                  if (kv[1] in seen) {
+                    print FILENAME ": duplicate key " kv[1] " in " sec > "/dev/stderr"
+                    bad = 1
+                  }
+                  seen[kv[1]] = 1
+                }
+                END { exit bad }
+              ' "$f"; then :; else
+                echo "$f: duplicate INI keys" >&2
+                exit 1
+              fi
+            done
+
+            # Proof that flatten() is actually compositing, which none of the
+            # arms above can establish. rgbtriple() calls Sass red/green/blue,
+            # which ignore alpha, so dropping flatten() does not leak "rgba("
+            # into the file: it silently emits the raw uncomposited channels.
+            #
+            # The invariant: in the LIGHT scheme $text is rgba(29,32,33,0.87),
+            # so it composites to a different value over Colors:Window's
+            # background than over Colors:View's. If flatten() were removed
+            # both would collapse to the raw 29,32,33 and become equal.
+            # Deliberately not asserted for Dark, where $text is opaque and
+            # the two are legitimately identical.
+            light=${kdeSchemes}/share/color-schemes/Gruvbox-Light-Hard.colors
+            win=$(sed -n '/^\[Colors:Window\]/,/^\[/p' "$light" \
+              | grep -m1 '^ForegroundNormal=' | cut -d= -f2)
+            view=$(sed -n '/^\[Colors:View\]/,/^\[/p' "$light" \
+              | grep -m1 '^ForegroundNormal=' | cut -d= -f2)
+            if [ "$win" = "$view" ]; then
+              echo "light ForegroundNormal is $win in both Colors:Window and Colors:View" >&2
+              echo "a translucent text colour must composite differently over different" >&2
+              echo "section backgrounds, so flatten() is not being applied" >&2
+              exit 1
+            fi
+            touch $out
+          '';
+
+          # The only test that fails if the mapping drifts from the GTK theme.
+          kde-colors-match-gtk = pkgs.runCommand "check-kde-colors-match-gtk" { } ''
+            gtk=$(grep -m1 '@define-color theme_bg_color' \
+              ${theme}/share/themes/Gruvbox-Dark/gtk-3.0/gtk.css |
+              grep -oE '#[0-9a-fA-F]{6}')
+            kde=$(sed -n '/^\[Colors:Window\]/,/^\[/p' \
+              ${kdeSchemes}/share/color-schemes/Gruvbox-Dark-Hard.colors |
+              grep -m1 '^BackgroundNormal=' | cut -d= -f2)
+
+            r=$(printf '%d' "0x''${gtk:1:2}")
+            g=$(printf '%d' "0x''${gtk:3:2}")
+            b=$(printf '%d' "0x''${gtk:5:2}")
+
+            if [ "$kde" != "$r,$g,$b" ]; then
+              echo "KDE window background $kde does not match GTK $gtk ($r,$g,$b)" >&2
+              exit 1
+            fi
+            echo "KDE and GTK agree on $gtk"
+            touch $out
+          '';
+
+          kde-colors-matrix-distinct = pkgs.runCommand "check-kde-colors-matrix-distinct" { } ''
+            dir=${kdeAll}/share/color-schemes
+            files=$(ls "$dir" | wc -l)
+            if [ "$files" != 90 ]; then
+              echo "expected 90 colour schemes, found $files" >&2
+              exit 1
+            fi
+
+            # Bijective: no two names share a palette, none is orphaned.
+            uniq=$(md5sum "$dir"/*.colors | awk '{print $1}' | sort -u | wc -l)
+            if [ "$uniq" != 90 ]; then
+              echo "90 names cover only $uniq distinct palettes" >&2
+              exit 1
+            fi
+            touch $out
+          '';
+
+          kde-colors-contrast-vocabulary = pkgs.runCommand "check-kde-colors-contrast-vocabulary" { } ''
+            dir=${kdeAll}/share/color-schemes
+            for word in Hard Medium Soft Black; do
+              if ! ls "$dir" | grep -q -- "-$word"; then
+                echo "no generated scheme carries the $word contrast" >&2
+                exit 1
+              fi
+            done
+            touch $out
+          '';
         });
     };
 }

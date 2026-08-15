@@ -58,4 +58,40 @@ rec {
           sizes)
         colors)
       themes;
+
+  # The contrast states, matching CONTRASTS in kde/install.sh. Blackness and
+  # the palette are two axes that combine, not one axis with four values:
+  # medium-black is a distinct colour set from medium and from hard-black for
+  # the light variant. The `black` alias is a CLI convenience only and is
+  # deliberately absent here.
+  contrasts = [ "hard" "medium" "soft" "hard-black" "medium-black" "soft-black" ];
+
+  contrastBase = contrast: lib.removeSuffix "-black" contrast;
+  contrastIsBlack = contrast: lib.hasSuffix "-black" contrast;
+
+  # Mirrors scheme_name() in kde/install.sh. The contrast word is always
+  # present, except that dark plus blackness drops it: blackness replaces the
+  # dark background outright, so all three palettes collapse to one scheme.
+  colorSchemeName = { themeName, theme, color, contrast }:
+    let
+      accent = themeSuffix.${theme};
+      colorWord = colorSuffix.${color};
+      baseWord = "-" + lib.toSentenceCase (contrastBase contrast);
+      contrastWord =
+        if contrastIsBlack contrast then
+          (if color == "dark" then "-Black" else baseWord + "-Black")
+        else baseWord;
+    in
+    "${themeName}${accent}${colorWord}${contrastWord}";
+
+  # Every distinct scheme name, deduplicated: dark+black yields one name per
+  # accent rather than three.
+  allColorSchemeNames = themeName:
+    lib.unique (lib.concatMap
+      (theme: lib.concatMap
+        (color: map
+          (contrast: colorSchemeName { inherit themeName theme color contrast; })
+          contrasts)
+        colors)
+      themes);
 }

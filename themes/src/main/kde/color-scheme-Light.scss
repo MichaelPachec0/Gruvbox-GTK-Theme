@@ -1,0 +1,12 @@
+$variant: 'light';
+$topbar: 'light';
+$compact: 'false';
+$theme: 'default';
+
+// kde/install.sh rewrites these two lines per variant.
+$kde-scheme-id: 'Gruvbox-Light-Hard';
+$kde-scheme-name: 'Gruvbox Light Hard';
+
+@import '../../sass/colors';
+@import '../../sass/variables';
+@import '../../sass/kde/color-scheme';

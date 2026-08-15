@@ -18,13 +18,16 @@ let
   padRight = width: s:
     s + lib.concatStrings (lib.genList (_: " ") (lib.max 0 (width - lib.stringLength s)));
 
-  labelWidth = 14;
+  labelWidth = 24;
   row = label: values: "  ${padRight labelWidth label}${lib.concatStringsSep " " values}";
 
   # Every name the theme can install, not a sample. Printed one per line so the
   # output pipes cleanly into grep or a fuzzy finder.
   allNames = variants.allThemeDirNames "Gruvbox";
   nameLines = map (n: "  ${n}") allNames;
+
+  schemeNames = variants.allColorSchemeNames "Gruvbox";
+  schemeLines = map (n: "  ${n}") schemeNames;
 
   text = ''
     Gruvbox GTK theme variants
@@ -33,6 +36,7 @@ let
     ${row "colors (-c)" variants.colors}
     ${row "sizes (-s)" variants.sizes}
     ${row "tweaks" variants.tweaks}
+    ${row "contrasts (--contrast)" variants.contrasts}
 
     soft and medium are mutually exclusive; install.sh keeps only the last one.
     black, float, outline and macos change styling without changing the name.
@@ -42,6 +46,10 @@ let
     Gruvbox; pass -n or themeName to change the prefix):
 
     ${lib.concatStringsSep "\n" nameLines}
+
+    All ${toString (builtins.length schemeNames)} KDE colour scheme names:
+
+    ${lib.concatStringsSep "\n" schemeLines}
 
     Build one directly:
 

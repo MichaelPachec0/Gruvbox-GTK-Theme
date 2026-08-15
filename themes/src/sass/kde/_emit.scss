@@ -1,0 +1,25 @@
+// Helpers for emitting KDE INI values from the theme palette.
+//
+// KDE .colors files carry opaque decimal R,G,B triples and have no alpha
+// channel, so every translucent palette value has to be composited against
+// the surface it is drawn on before it can be written out.
+
+// "R, G, B" for an opaque colour. sassc renders this with a space after each
+// comma; kde/css2ini.awk strips those.
+@function rgbtriple($c) {
+	@return #{red($c)},#{green($c)},#{blue($c)};
+}
+
+// Composite a translucent colour over an opaque background.
+// mix()'s weight is the proportion of the first argument, which is exactly
+// the foreground's alpha. An already-opaque colour returns unchanged.
+@function flatten($c, $bg) {
+	@return mix(rgba($c, 1), $bg, alpha($c) * 100%);
+}
+
+// The form every mapping call site uses: composite, then emit.
+// $bg must be the BackgroundNormal of the section being written, because
+// that is the surface KDE draws these foregrounds on.
+@function triple($c, $bg) {
+	@return rgbtriple(flatten($c, $bg));
+}

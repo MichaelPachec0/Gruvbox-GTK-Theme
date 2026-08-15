@@ -9,6 +9,17 @@ let
     inherit (cfg) themeName themeVariants colorVariants sizeVariants tweaks gnomeShellVersion;
   };
   iconPackage = pkgs.callPackage "${self}/nix/icons.nix" { };
+  kdeColorSchemePackage = pkgs.callPackage "${self}/nix/kde-package.nix" {
+    inherit (cfg) themeName themeVariants colorVariants;
+    contrastVariants = cfg.kdeColorSchemes.contrastVariants;
+  };
+
+  # Read from variants.nix rather than repeating the list. A hardcoded copy
+  # here went stale once already: it still held the four-value vocabulary
+  # after the contrast axis was corrected, which both rejected the valid
+  # medium-black and soft-black and accepted the CLI-only `black` alias that
+  # kde-package.nix then refused with a raw assertOneOf trace.
+  kdeContrasts = (import "${self}/nix/variants.nix" lib).contrasts;
 
   themeNames = cfg.package.themeNames or [ ];
   iconThemeNames = cfg.iconTheme.package.iconThemeNames or [ ];
@@ -108,6 +119,27 @@ in
       example = "Gruvbox-Dark";
       description = "Which icon theme directory to activate. Null takes the first entry of the package's iconThemeNames.";
     };
+
+    kdeColorSchemes = {
+      enable = lib.mkEnableOption "the Gruvbox KDE colour schemes";
+
+      package = lib.mkOption {
+        type = lib.types.package;
+        default = kdeColorSchemePackage;
+        defaultText = lib.literalMD "the flake's KDE colour scheme package";
+        description = "Colour scheme package to install.";
+      };
+
+      contrastVariants = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [ "hard" ];
+        description =
+          "Contrast variants: "
+          + lib.concatStringsSep " " kdeContrasts
+          + ". Blackness combines with the palette, so medium-black is a "
+          + "distinct scheme from both medium and hard-black.";
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -139,13 +171,27 @@ in
         assertion = !cfg.iconTheme.enable || cfg.iconThemeName == null || iconThemeNames == [ ] || lib.elem cfg.iconThemeName iconThemeNames;
         message = "programs.gruvbox-gtk-theme.iconThemeName is ${toString cfg.iconThemeName}, which this package does not ship. It ships: ${lib.concatStringsSep ", " iconThemeNames}.";
       }
+      {
+        # Read from variants.nix rather than repeating the list. A hardcoded
+        # copy here went stale once already: it still held the four-value
+        # vocabulary after the contrast axis was corrected, which both
+        # rejected the valid medium-black and soft-black and accepted the
+        # CLI-only `black` alias that kde-package.nix then refused with a raw
+        # assertOneOf trace.
+        assertion = !cfg.kdeColorSchemes.enable
+          || lib.all (c: lib.elem c kdeContrasts) cfg.kdeColorSchemes.contrastVariants;
+        message = "programs.gruvbox-gtk-theme.kdeColorSchemes.contrastVariants "
+          + "accepts only: "
+          + lib.concatStringsSep " " kdeContrasts;
+      }
     ];
 
     # gnome-themes-extra supplies the GTK2 adwaita engine that the theme's
     # gtk-2.0 rc files load. Without it GTK2 apps fall back to unstyled
     # widgets.
     home.packages = [ cfg.package pkgs.gnome-themes-extra ]
-      ++ lib.optional cfg.iconTheme.enable cfg.iconTheme.package;
+      ++ lib.optional cfg.iconTheme.enable cfg.iconTheme.package
+      ++ lib.optional cfg.kdeColorSchemes.enable cfg.kdeColorSchemes.package;
 
     gtk = lib.mkIf cfg.setGtkTheme ({
       enable = true;

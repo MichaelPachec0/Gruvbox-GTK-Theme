@@ -1,0 +1,126 @@
+// KDE colour scheme, emitted as CSS whose selectors name INI sections and
+// whose declarations are already R,G,B triples. kde/css2ini.awk performs the
+// mechanical conversion; all colour decisions live here.
+//
+// The eight Colors:* sections share one set of foreground keys and differ
+// only in their backgrounds. Foregrounds are composited against the section's
+// own background, because that is the surface KDE draws them on.
+
+@import 'emit';
+
+// Always the dark end of the palette, in both variants: KDE uses
+// Complementary for dark surfaces such as the lock screen.
+$kde-complementary-bg: background(f);
+$kde-complementary-bg-alt: background(g);
+
+$kde-button-bg: flatten($button, $background);
+$kde-tooltip-bg: flatten($tooltip, $background);
+$kde-selection-bg-alt: mix($primary, $background, 40%);
+
+// $normal and $active are parameters rather than fixed, because
+// Colors-Selection needs different values for them and emitting the key twice
+// would leave correctness resting on KDE resolving duplicate INI keys
+// last-wins.
+@mixin kde-foregrounds($bg, $normal: $text, $active: $primary) {
+	ForegroundNormal: triple($normal, $bg);
+	ForegroundInactive: triple($text-secondary, $bg);
+	ForegroundActive: triple($active, $bg);
+	ForegroundLink: triple($link, $bg);
+	ForegroundVisited: triple($link-visited, $bg);
+	ForegroundNegative: triple($error, $bg);
+	ForegroundNeutral: triple($warning, $bg);
+	ForegroundPositive: triple($success, $bg);
+	DecorationFocus: triple($primary, $bg);
+	DecorationHover: triple($primary, $bg);
+}
+
+@mixin kde-colorset($bg, $bg-alt) {
+	BackgroundNormal: rgbtriple($bg);
+	BackgroundAlternate: rgbtriple($bg-alt);
+	@include kde-foregrounds($bg);
+}
+
+Colors-Window {
+	@include kde-colorset($background, $surface);
+}
+
+Colors-View {
+	@include kde-colorset($base, $base-alt);
+}
+
+Colors-Button {
+	@include kde-colorset($kde-button-bg, $surface);
+}
+
+Colors-Tooltip {
+	@include kde-colorset($kde-tooltip-bg, $surface);
+}
+
+Colors-Header {
+	@include kde-colorset($titlebar, $background);
+}
+
+Colors-Header-Inactive {
+	@include kde-colorset($background, $titlebar);
+}
+
+Colors-Complementary {
+	@include kde-colorset($kde-complementary-bg, $kde-complementary-bg-alt);
+}
+
+// Selection paints text on the accent, so its normal and active foregrounds
+// are the accent's own contrast colour rather than the window text. They are
+// passed into the mixin rather than overridden after it, so each key is
+// emitted exactly once.
+Colors-Selection {
+	BackgroundNormal: rgbtriple($primary);
+	BackgroundAlternate: rgbtriple($kde-selection-bg-alt);
+	@include kde-foregrounds($primary, on($primary), on($primary));
+}
+
+// Behavioural parameters, not palette. Values match Breeze 6.7.4 so KDE's
+// disabled and inactive rendering behaves the way users expect; only Color
+// is themed.
+ColorEffects-Disabled {
+	Color: rgbtriple($surface);
+	ColorAmount: 0;
+	ColorEffect: 0;
+	ContrastAmount: 0.65;
+	ContrastEffect: 1;
+	IntensityAmount: 0.1;
+	IntensityEffect: 2;
+}
+
+ColorEffects-Inactive {
+	ChangeSelectionColor: true;
+	Color: rgbtriple($surface);
+	ColorAmount: 0.025;
+	ColorEffect: 2;
+	ContrastAmount: 0.1;
+	ContrastEffect: 2;
+	Enable: false;
+	IntensityAmount: 0;
+	IntensityEffect: 0;
+}
+
+// $titlebar and $titlebar-backdrop are the same value in this theme, so
+// active and inactive title bars differ by text colour alone. That is
+// faithful to the GTK theme; see the spec.
+WM {
+	activeBackground: rgbtriple($titlebar);
+	activeForeground: triple($titlebar-text, $titlebar);
+	activeBlend: triple($titlebar-text, $titlebar);
+	inactiveBackground: rgbtriple($titlebar-backdrop);
+	inactiveForeground: triple($titlebar-text-secondary, $titlebar-backdrop);
+	inactiveBlend: triple($titlebar-text-secondary, $titlebar-backdrop);
+}
+
+General {
+	ColorScheme: #{$kde-scheme-id};
+	Name: #{$kde-scheme-name};
+	shadeSortColumn: true;
+}
+
+KDE {
+	contrast: 4;
+}

@@ -53,7 +53,7 @@ Comment[ro]=O temă cyberpunk, futuristă, modernă, cu icoane asemenea Papirus
 Comment[ru]=Киберпанковая, элегантная, футуристичная и современная Papirus-подобная тема иконок.
 Comment[uk]=Кіберпанкова, елегантна, футуристична, модернова та папірусована тема іконок.
 
-Inherits=Yaru,gnome,hicolor
+Inherits=Yaru,gnome,breeze,hicolor
 
 Example=folder
 

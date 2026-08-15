@@ -1,0 +1,22 @@
+Colors-Window {
+  BackgroundNormal: 29, 32, 33;
+  ForegroundNormal: 251, 241, 199;
+}
+
+Colors-Header-Inactive {
+  BackgroundNormal: 36, 34, 32;
+}
+
+General {
+  ColorScheme: Gruvbox-Dark-Hard;
+  Name: Gruvbox Dark Hard;
+  shadeSortColumn: true;
+}
+
+KDE {
+  contrast: 4;
+}
+
+Colors-Tooltip {
+  BackgroundNormal: 36, 34, 32;
+}
