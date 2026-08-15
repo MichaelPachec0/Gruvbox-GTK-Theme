@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="34" viewBox="0 0 128 34">
+  <defs>
+    <style id="current-color-scheme" type="text/css">
+      .ColorScheme-Background { color: #1d2021; }
+      .ColorScheme-Text       { color: #fbf1c7; }
+      .ColorScheme-Highlight  { color: #7daea3; }
+    </style>
+  </defs>
+  <g id="active-center" transform="translate(0,0)">
+  <g
+     transform="translate(-21,-708.36215)"
+     id="active-center__layer1">
+    <g
+       id="active-center__maximize-toggled-active">
+      <g
+         id="active-center__use1865"
+         transform="translate(0,123.00003)">
+        <rect class="ColorScheme-Background"
+           y="585.36212"
+           x="21"
+           height="34"
+           width="32"
+           id="active-center__rect5"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.27242;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <rect class="ColorScheme-Text"
+           style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.1547;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="active-center__rect6"
+           width="32"
+           height="1"
+           x="21"
+           y="585.36212" />
+      </g>
+      <circle
+         style="opacity:1;fill:#6c782e;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="active-center__circle2567"
+         cx="37"
+         cy="725.36212"
+         r="8" />
+    </g>
+  </g>
+  </g>
+  <g id="hover-center" transform="translate(32,0)">
+  <g
+     transform="translate(-61,-708.36215)"
+     id="hover-center__layer1">
+    <g
+       id="hover-center__maximize-toggled-prelight">
+      <g
+         id="hover-center__use1867"
+         transform="translate(40,123.00003)">
+        <rect class="ColorScheme-Background"
+           y="585.36212"
+           x="21"
+           height="34"
+           width="32"
+           id="hover-center__rect13"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.27242;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <rect class="ColorScheme-Text"
+           style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.1547;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="hover-center__rect14"
+           width="32"
+           height="1"
+           x="21"
+           y="585.36212" />
+      </g>
+      <circle
+         style="opacity:1;fill:#6c782e;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="hover-center__circle2569"
+         cx="77"
+         cy="725.36212"
+         r="8" />
+      <g class="ColorScheme-Text"
+         id="hover-center__g2908"
+         transform="translate(69,717.36212)"
+         style="fill:currentColor">
+        <path class="ColorScheme-Text"
+           d="M 6,6 C 4.892,6 4,6.892 4,8 v 2 c 0,1.108 0.892,2 2,2 h 2 c 1.108,0 2,-0.892 2,-2 V 8 C 10,6.892 9.108,6 8,6 Z m 0,1 h 2 c 0.554,0 1,0.446 1,1 v 2 c 0,0.554 -0.446,1 -1,1 H 6 C 5.446,11 5,10.554 5,10 V 8 C 5,7.446 5.446,7 6,7 Z"
+           style="fill:currentColor;paint-order:stroke fill markers"
+           id="hover-center__path2896" />
+        <path class="ColorScheme-Text"
+           d="M 8,4 C 6.892,4 6,4.892 6,6 H 7 C 7,5.446 7.446,5 8,5 h 2 c 0.554,0 1,0.446 1,1 v 2 c 0,0.554 -0.446,1 -1,1 v 1 c 1.108,0 2,-0.892 2,-2 V 6 C 12,4.892 11.108,4 10,4 Z"
+           style="fill:currentColor;paint-order:stroke fill markers"
+           id="hover-center__path2898"
+           opacity="0.35" />
+      </g>
+    </g>
+  </g>
+  </g>
+  <g id="pressed-center" transform="translate(64,0)">
+  <g
+     transform="translate(-101,-708.36215)"
+     id="pressed-center__layer1">
+    <g
+       id="pressed-center__maximize-toggled-pressed">
+      <g
+         id="pressed-center__use1869"
+         transform="translate(80,123.00003)">
+        <rect class="ColorScheme-Background"
+           y="585.36212"
+           x="21"
+           height="34"
+           width="32"
+           id="pressed-center__rect21"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.27242;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <rect class="ColorScheme-Text"
+           style="opacity:0.1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.1547;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="pressed-center__rect22"
+           width="32"
+           height="1"
+           x="21"
+           y="585.36212" />
+      </g>
+      <circle
+         style="opacity:1;fill:#a9b665;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="pressed-center__circle2571"
+         cx="117"
+         cy="725.36212"
+         r="8" />
+      <circle class="ColorScheme-Text"
+         style="opacity:0.25;fill:currentColor;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="pressed-center__circle2813"
+         cx="117"
+         cy="725.36212"
+         r="8" />
+      <g class="ColorScheme-Text"
+         id="pressed-center__g2938"
+         transform="translate(109,717.36212)"
+         style="fill:currentColor">
+        <path class="ColorScheme-Background"
+           d="M 6,6 C 4.892,6 4,6.892 4,8 v 2 c 0,1.108 0.892,2 2,2 h 2 c 1.108,0 2,-0.892 2,-2 V 8 C 10,6.892 9.108,6 8,6 Z m 0,1 h 2 c 0.554,0 1,0.446 1,1 v 2 c 0,0.554 -0.446,1 -1,1 H 6 C 5.446,11 5,10.554 5,10 V 8 C 5,7.446 5.446,7 6,7 Z"
+           style="fill:currentColor;fill-opacity:1;paint-order:stroke fill markers"
+           id="pressed-center__path2934" />
+        <path class="ColorScheme-Background"
+           d="M 8,4 C 6.892,4 6,4.892 6,6 H 7 C 7,5.446 7.446,5 8,5 h 2 c 0.554,0 1,0.446 1,1 v 2 c 0,0.554 -0.446,1 -1,1 v 1 c 1.108,0 2,-0.892 2,-2 V 6 C 12,4.892 11.108,4 10,4 Z"
+           opacity="0.35"
+           style="fill:currentColor;fill-opacity:1;paint-order:stroke fill markers"
+           id="pressed-center__path2936" />
+      </g>
+    </g>
+  </g>
+  </g>
+  <g id="inactive-center" transform="translate(96,0)">
+  <g
+     transform="translate(-141,-708.36209)"
+     id="inactive-center__layer1">
+    <g
+       id="inactive-center__maximize-toggled-inactive">
+      <g
+         id="inactive-center__use2287"
+         transform="translate(120,123.00003)">
+        <rect class="ColorScheme-Background"
+           y="585.36206"
+           x="21"
+           height="34"
+           width="32"
+           id="inactive-center__rect57"
+           style="fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.27242;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      </g>
+      <circle class="ColorScheme-Text"
+         style="opacity:0.3;fill:currentColor;fill-opacity:1;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="inactive-center__circle2573"
+         cx="157"
+         cy="725.36212"
+         r="8" />
+    </g>
+  </g>
+  </g>
+</svg>

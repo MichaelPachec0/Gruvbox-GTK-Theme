@@ -14,6 +14,7 @@
         gruvbox-gtk-theme = pkgs.callPackage ./nix/package.nix { };
         gruvbox-icon-theme = pkgs.callPackage ./nix/icons.nix { };
         gruvbox-kde-color-schemes = pkgs.callPackage ./nix/kde-package.nix { };
+        gruvbox-kde-aurorae = pkgs.callPackage ./nix/aurorae-package.nix { };
         list-variants = pkgs.callPackage ./nix/list-variants.nix { };
 
         # Building this RUNS the VM test; $out holds the screenshots it took.
@@ -111,6 +112,16 @@
             themeVariants = variants.themes;
             colorVariants = variants.colors;
             contrastVariants = variants.contrasts;
+          };
+
+          aurorae = (self.packages.${pkgs.stdenv.hostPlatform.system}.gruvbox-kde-aurorae).override {
+            colorVariants = [ "dark" "light" ];
+          };
+          # The traffic-light assertion needs the macos set, which is not the
+          # default button style.
+          auroraeMacos = (self.packages.${pkgs.stdenv.hostPlatform.system}.gruvbox-kde-aurorae).override {
+            colorVariants = [ "dark" "light" ];
+            buttonVariants = [ "macos" ];
           };
 
           # What list-variants is expected to print, derived from the same file
@@ -424,6 +435,84 @@
             for word in Hard Medium Soft Black; do
               if ! ls "$dir" | grep -q -- "-$word"; then
                 echo "no generated scheme carries the $word contrast" >&2
+                exit 1
+              fi
+            done
+            touch $out
+          '';
+
+          aurorae-element-contract = pkgs.runCommand "check-aurorae-element-contract" { } ''
+            d=${aurorae}/share/aurorae/themes/Gruvbox-Dark
+            for s in top bottom left right topleft topright bottomleft bottomright center; do
+              grep -q "id=\"decoration-$s\"" "$d/decoration.svg" || {
+                echo "decoration.svg is missing the decoration-$s nine-slice id" >&2
+                exit 1
+              }
+            done
+            for b in close maximize restore minimize alldesktops keepabove keepbelow; do
+              test -f "$d/$b.svg"
+              grep -q 'id="active-center"' "$d/$b.svg" || {
+                echo "$b.svg has no active-center element" >&2
+                exit 1
+              }
+            done
+            touch $out
+          '';
+
+          # The property that lets one decoration serve all 90 schemes.
+          aurorae-scheme-aware = pkgs.runCommand "check-aurorae-scheme-aware" { } ''
+            d=${aurorae}/share/aurorae/themes/Gruvbox-Dark
+            grep -q 'id="current-color-scheme"' "$d/decoration.svg" || {
+              echo "decoration.svg lost its current-color-scheme stylesheet" >&2
+              exit 1
+            }
+            grep -q 'class="ColorScheme-' "$d/decoration.svg" || {
+              echo "decoration.svg no longer references any ColorScheme class" >&2
+              exit 1
+            }
+            touch $out
+          '';
+
+          # The traffic lights live only in the macos button set. The legacy
+          # set is monochrome and scheme-aware, so it carries no literal hex
+          # and cannot be compared this way; its own invariant is checked
+          # below instead.
+          aurorae-buttons-match-gtk = pkgs.runCommand "check-aurorae-buttons-match-gtk" { } ''
+            dark=$(grep -oE '#(ea6962|c14a4a)' \
+              ${auroraeMacos}/share/aurorae/themes/Gruvbox-Dark-Macos/close.svg | head -1)
+            light=$(grep -oE '#(ea6962|c14a4a)' \
+              ${auroraeMacos}/share/aurorae/themes/Gruvbox-Light-Macos/close.svg | head -1)
+
+            if [ "$dark" != "#ea6962" ]; then
+              echo "dark macos close button is $dark, expected #ea6962 (\$titlebutton-close)" >&2
+              exit 1
+            fi
+            if [ "$light" != "#c14a4a" ]; then
+              echo "light macos close button is $light, expected #c14a4a (\$titlebutton-close)" >&2
+              exit 1
+            fi
+            if [ "$dark" = "$light" ]; then
+              echo "light and dark close buttons are identical; \$topbar is not tracking \$variant" >&2
+              exit 1
+            fi
+            touch $out
+          '';
+
+          # The legacy buttons must stay scheme-aware. If an edit bakes a
+          # literal colour into them they stop following the colour scheme,
+          # which is silent: they would still render, just always in one
+          # colour regardless of the active scheme.
+          aurorae-legacy-buttons-scheme-aware = pkgs.runCommand "check-aurorae-legacy-buttons-scheme-aware" { } ''
+            for b in close maximize restore minimize alldesktops keepabove keepbelow; do
+              f=${aurorae}/share/aurorae/themes/Gruvbox-Dark/$b.svg
+              test -f "$f"
+              grep -q 'ColorScheme-' "$f" || {
+                echo "$b.svg no longer references any ColorScheme class" >&2
+                exit 1
+              }
+              # Outside the stylesheet block, no literal fill may remain.
+              if sed '/<style/,/<\/style>/d' "$f" | grep -oE 'fill:#[0-9a-fA-F]{6}|fill="#[0-9a-fA-F]{6}"'; then
+                echo "$b.svg has a literal fill outside its stylesheet" >&2
                 exit 1
               fi
             done
